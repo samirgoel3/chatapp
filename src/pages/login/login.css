@@ -1,0 +1,33 @@
+.root{
+    height: 100vh;
+}
+
+.left-root{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.paper{
+    padding: 30px;
+    width: 60%;
+}
+
+.signup-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-top: 20px;
+}
+
+.signup-text{
+    margin-left: 5px;
+    margin-right: 5px;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-decoration: none;
+    color: teal;
+    background-color: white;
+}
