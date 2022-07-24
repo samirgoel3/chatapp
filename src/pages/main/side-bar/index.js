@@ -21,9 +21,6 @@ export default function SideBar() {
             <Grid item flex={1} >
                 <RecentChat/>
             </Grid>
-
-
-
         </Grid>
     )
 }

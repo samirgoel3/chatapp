@@ -1,14 +1,15 @@
 import { Avatar, Grid, Typography } from '@mui/material'
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import COLORS from '../../../constants/Colors'
 import { faker } from '@faker-js/faker';
 
 
 
 
+
 const getMockData = () => {
     faker.seed(323)
-    let requirement = 5;
+    let requirement = 3;
     let arr = [];
     for (let i = 0; i < requirement; i++) {
         arr.push(
@@ -39,9 +40,24 @@ const getRecentChatListItem = (element, index) => {
 
 
 export default function RecentChat() {
+    const [windowSize, setWindowSize] = useState(getWindowSize())
+
+    useEffect(() => {
+        function handleWindowResize() {
+          setWindowSize(getWindowSize());
+        }
+    
+        window.addEventListener('resize', handleWindowResize);
+    
+        return () => {
+          window.removeEventListener('resize', handleWindowResize);
+        };
+      }, []);
+
+
     return (
         <Grid container sx={{ height: '100%' }} direction={'column'}>
-            <div style={{ height: '81vh', overflowY: 'scroll' }}>
+            <div style={{ height: windowSize.innerWidth < 900 ?(windowSize.innerHeight - 105): (windowSize.innerHeight - 156), overflowY: 'scroll' }}>
 
                 {
                     getMockData().map((e, i) => {
@@ -53,19 +69,11 @@ export default function RecentChat() {
 
             </div>
 
-
-
-
-
-            {/* <div style={{ overflowY: 'scroll' }}>
-                {
-                    MockData.map((e, i) => {
-                        return (
-                            getRecentChatListItem()
-                        )
-                    })
-                }
-            </div> */}
         </Grid>
     )
 }
+
+function getWindowSize() {
+    const {innerWidth, innerHeight} = window;
+    return {innerWidth, innerHeight};
+  }

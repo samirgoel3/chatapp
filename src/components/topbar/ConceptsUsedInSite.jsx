@@ -1,14 +1,13 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
-import Divider from '@mui/material/Divider';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { alpha, styled } from '@mui/material/styles';
+import * as React from 'react';
+import Concepts from '../../constants/DevConcepts';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -72,7 +71,7 @@ export default function ConceptsUsedInSite() {
         disableElevation
         onClick={handleClick}
         endIcon={<KeyboardArrowDownIcon />}
-        sx={{ border:'1px solid #fff', marginLeft:3, fontSize:10}}
+        sx={{ border: '1px solid #fff', marginLeft: 3, fontSize: 10 }}
       >
         Concepts Used in Site
       </Button>
@@ -85,47 +84,14 @@ export default function ConceptsUsedInSite() {
         open={open}
         onClose={handleClose}
       >
-       
-        <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Public vs Privated/protected Route
-        </MenuItem>
-
-        <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Form Validation at login
-        </MenuItem>
-
-        <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Matrial UI Concepts with grid
-        </MenuItem>
-
-        <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Socket Programming 
-        </MenuItem>
-
-        <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Debouncing in search 
-        </MenuItem>
-
-        <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Fake Api for development of UI 
-        </MenuItem>
-
-        <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Trick React Reference used for auto scroll to bottom
-        </MenuItem>
-
-        <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Shortcut tip for setting responsove display using sx, ls md...
-        </MenuItem>
-
+        {Concepts.map((e, i) => {
+          return (
+            <MenuItem onClick={handleClose} disableRipple>
+              <FileCopyIcon />
+              {e.detail}
+            </MenuItem>
+          )
+        })}
 
         <Divider sx={{ my: 0.5 }} />
 
@@ -133,7 +99,7 @@ export default function ConceptsUsedInSite() {
           <ArchiveIcon />
           Archive
         </MenuItem>
-        
+
       </StyledMenu>
     </div>
   );
