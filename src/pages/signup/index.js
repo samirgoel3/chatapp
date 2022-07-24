@@ -74,10 +74,15 @@ export default function SignUp() {
                             Already have account? <Link className='login-text' to={ROUTESNAMES.LOGIN}> Login</Link>
                         </div>
 
-                        <ICONS.NODE size={30} color={COLORS.PRIMARY} />
-                        <ICONS.GITHUB size={30} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
-                        <ICONS.MONGO_DB size={30} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
-                        <ICONS.REACT size={30} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
+                        <div  className='icon-container'>
+                        <ICONS.NODE size={20} color={COLORS.PRIMARY} />
+                        <ICONS.GITHUB size={20} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
+                        <ICONS.MONGO_DB size={20} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
+                        <ICONS.REACT size={20} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
+                        <ICONS.SOCKETIO size={20} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
+                        <ICONS.POSTMAN size={20} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
+                        </div>
+                        
                         
                     </Paper>
 
