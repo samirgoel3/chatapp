@@ -39,11 +39,12 @@ function a11yProps(index) {
     };
 }
 
-export default function TabsBar() {
+export default function TabsBar({onTabSelected = ()=>{}}) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        onTabSelected(newValue)
     };
 
     return (

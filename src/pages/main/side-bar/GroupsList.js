@@ -1,4 +1,4 @@
-import { Avatar, Grid, Typography } from '@mui/material'
+import { Avatar, Button, Grid, Typography } from '@mui/material'
 import React, { Component, useEffect, useState } from 'react'
 import COLORS from '../../../constants/Colors'
 import { faker } from '@faker-js/faker';
@@ -26,7 +26,7 @@ const getMockData = () => {
     return arr;
 }
 
-export default function RecentChat() {
+export default function GroupList() {
     const [windowSize, setWindowSize] = useState(getWindowSize())
 
     useEffect(() => {

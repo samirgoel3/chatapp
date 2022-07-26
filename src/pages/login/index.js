@@ -1,11 +1,11 @@
+import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material'
 import React from 'react'
-import { Grid, Paper, TextField, Typography, InputLabel, FormControl, OutlinedInput, InputAdornment, IconButton, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
-import COLORS from '../../constants/Colors'
+import TechDescriptionView from '../../components/tech-description'
 import ICONS from '../../constants/Icons'
 import ROUTESNAMES from '../../constants/RoutesName'
-import Concepts from '../../constants/DevConcepts'
-import './login.css';
+import './login.css'
+
 
 export default function Login() {
 
@@ -19,72 +19,64 @@ export default function Login() {
 
 
     return (
-        <Grid container className='root'>
+        <div container
+            className='root'
+            justifyContent='center' >
 
-            {/* LEFt */}
-            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                <Grid container className='left-root'>
+            <div className='left-root'>
+                <TechDescriptionView />
+            </div>
 
-                    <Paper className='paper'>
-                        <Typography variant='h4' sx={{ fontWeight: 700, marginBottom: 3, color: COLORS.PRIMARY }}>Chat APP Sample</Typography>
-                        <Typography variant='subtitle2' sx={{ marginBottom: 3, color: '#bbb' }}>A simple chat app project created using socket, React, express, Node as backend, Material UI with open source code</Typography>
+            <div className='right-root'>
+                <div className='box-for-content'>
 
-                        <TextField label="Email" variant="outlined" placeholder='Enter you email' sx={{ width: '100%', marginBottom: 4, fontWeight: 700 }} />
+                    <p className='paper-heading'>CHAT APP</p>
+                    <p className='paper-subheading'>A simple chat app project created using socket, React, express, Node as backend, Material UI with open source code</p>
+                    <TextField label="Email" variant="outlined" placeholder='Enter you email' sx={{ width: '100%', marginBottom: 2, fontWeight: 700 }} />
 
-
-                        <FormControl sx={{ marginBottom: 2, width: '100%' }} variant="outlined">
-                            <InputLabel htmlFor="outlined-adornment-password" sx={{ fontWeight: 700 }}>Password</InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-password"
-                                type={showPassword ? 'text' : 'password'}
-                                value={password}
-                                onChange={(e) => { handlePasswordChange(e.target.value) }}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={() => { setShowPassword(!showPassword) }}
-                                            edge="end">
-                                            {showPassword ? <ICONS.OPEN_EYE_ICON /> : <ICONS.CLOSE_EYE_ICON />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Password"
-                            />
-                        </FormControl>
-
-                        <Button variant='contained' sx={{ width: '100%' }}> Login</Button>
-                        <div className='signup-container' >
-                            Don't have account?
-                            <Link className='signup-text' to={ROUTESNAMES.SIGN_UP}> Sign up</Link>
-                        </div>
-
-                        <div  className='icon-container'>
-                        <ICONS.NODE size={20} color={COLORS.PRIMARY} />
-                        <ICONS.GITHUB size={20} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
-                        <ICONS.MONGO_DB size={20} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
-                        <ICONS.REACT size={20} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
-                        <ICONS.SOCKETIO size={20} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
-                        <ICONS.POSTMAN size={20} color={COLORS.PRIMARY} style={{ marginLeft: 5 }} />
-                        </div>
-
-                    </Paper>
+                    <FormControl className='form-controller' variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            type={showPassword ? 'text' : 'password'}
+                            value={password}
+                            onChange={(e) => { handlePasswordChange(e.target.value) }}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={() => { setShowPassword(!showPassword) }}
+                                        edge="end">
+                                        {showPassword ? <ICONS.OPEN_EYE_ICON /> : <ICONS.CLOSE_EYE_ICON />}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            label="Password"
+                        />
+                    </FormControl>
+                    <div className='button-container'>
+                    <Button variant='contained' className='login-button'> Login</Button>
+                    </div>
+                    <div className='signup-container' >
+                        Don't have account?
+                        <Link className='signup-text' to={ROUTESNAMES.SIGN_UP}> Sign up</Link>
+                    </div>
 
 
-                </Grid>
-            </Grid>
+                </div>
 
-            {/* RIGHT */}
-            <Grid item flex={1} sx={{ backgroundColor: COLORS.PRIMARY, textAlign: 'center', paddingTop: 30 }} >
-               
-                    { Concepts.map((e)=>{
-                         return <Typography sx={{ color: 'white' }}> {e.detail}</Typography>
-                    })}
-                    
-            </Grid>
+            </div>
 
 
 
-        </Grid>
+
+            {/* <Grid container className='left-root'>
+
+                   
+
+                </Grid> */}
+
+
+        </div>
     )
 }

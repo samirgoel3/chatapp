@@ -1,12 +1,13 @@
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { DiNodejs } from "react-icons/di";
+import { DiNodejs, DiAndroid } from "react-icons/di";
 import { FaGithub, FaLinkedin, FaNodeJs, FaReact, FaSearch } from 'react-icons/fa';
 import { ImCamera } from "react-icons/im";
-import { SiGmail, SiMongodb, SiPostman, SiSocketdotio } from "react-icons/si";
+import { SiGmail, SiMongodb, SiPostman, SiSocketdotio, SiMaterialui } from "react-icons/si";
 import { TbSend } from "react-icons/tb";
 import { RiMenu2Line } from "react-icons/ri";
-import { BsMenuAppFill } from "react-icons/bs";
+import { BsMenuAppFill, BsApple } from "react-icons/bs";
+
 
 
 
@@ -27,7 +28,10 @@ const ICONS = {
     SEARCH:FaSearch,
     SEND_MESSAGE:TbSend,
     MENU_ONE:RiMenu2Line,
-    CHAT_MENU:BsMenuAppFill
+    CHAT_MENU:BsMenuAppFill,
+    MATERIAL_UI:SiMaterialui,
+    ANDROID:DiAndroid,
+    APPLE:BsApple
 }
 
 export default ICONS;
