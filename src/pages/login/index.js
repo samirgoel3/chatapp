@@ -6,8 +6,9 @@ import TechDescriptionView from '../../components/tech-description'
 import ROUTESNAMES from '../../constants/RoutesName'
 import './login.css'
 import Services from '../../network/services/';
-import {useDispatch} from 'react-redux';
-import {actions} from '../../states/actions';
+import { useDispatch } from 'react-redux';
+import { actions } from '../../states/actions';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 
 
@@ -15,16 +16,16 @@ export default function Login() {
 
     const dispatch = useDispatch()
     const [inputs, setInputs] = React.useState({ email: '', password: '' })
-    const [error,setError] = React.useState({email:"",password:""})
+    const [error, setError] = React.useState({ email: "", password: "" })
     const [loader, setLoader] = React.useState(false)
 
     const handleInputChange = (inputKey, value) => {
         setInputs(prevState => ({ ...prevState, [inputKey]: value }))
-        setError(prevState => ({...prevState, [inputKey]: ""}))
+        setError(prevState => ({ ...prevState, [inputKey]: "" }))
     }
 
-    function handleError(errorKey, text){
-        setError(prevState => ({...prevState, [errorKey]: text}))
+    function handleError(errorKey, text) {
+        setError(prevState => ({ ...prevState, [errorKey]: text }))
     }
 
     const validate = () => {
@@ -52,27 +53,27 @@ export default function Login() {
     };
 
 
-   
 
 
-    const fetchLoginApi = async()=>{
-        try{
+
+    const fetchLoginApi = async () => {
+        try {
             setLoader(true)
             const data = await Services.AuthenticationService.getLogin(inputs.email, inputs.password)
             setLoader(false)
-            if(!data){
+            if (!data) {
                 dispatch(actions.ErrorDialogActions.showNoDataFromApi())
-            } else{
-                if(data.data.result === 1){
+            } else {
+                if (data.data.result === 1) {
                     // dispatch(actions.authenticationActions.onSignUp(data.data.response.username,data.data.response.email,data.data.response.image,data.data.response.token))
                     alert(JSON.stringify(data))
                 }
-                else{
-                    dispatch(actions.ErrorDialogActions.showError({header:"Failed To login", description:""+data.data.message}))
+                else {
+                    dispatch(actions.ErrorDialogActions.showError({ header: "Failed To login", description: "" + data.data.message }))
 
                 }
             }
-        }catch (e){
+        } catch (e) {
             setLoader(false)
             dispatch(actions.ErrorDialogActions.showException(e.message))
         }
@@ -110,7 +111,13 @@ export default function Login() {
                         value={inputs.password} />
 
                     <div className='button-container'>
-                        <Button variant='contained' className='login-button' onClick={()=>{validate()}} > Login</Button>
+                        <LoadingButton
+                            variant='contained'
+                            loadingIndicator="Signing in..."
+                            className='login-button'
+                            loading={loader}
+                            onClick={() => { validate() }} > Login</LoadingButton>
+
                     </div>
                     <div className='signup-container' >
                         Don't have account?

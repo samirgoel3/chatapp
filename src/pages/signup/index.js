@@ -1,4 +1,4 @@
-import { Avatar, Button, Grid, Switch, Typography } from '@mui/material'
+import { Avatar, Grid, Switch, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import ErrorInput from '../../components/common/ErrorInput'
@@ -9,11 +9,14 @@ import ROUTESNAMES from '../../constants/RoutesName'
 import CameraIcon from '../../images/ic_camera.png'
 import './signup.css'
 import Services from '../../network/services/';
-import {useDispatch} from 'react-redux';
-import {actions} from '../../states/actions';
+import { useDispatch } from 'react-redux';
+import { actions } from '../../states/actions';
+import LoadingButton from '@mui/lab/LoadingButton';
+
+
 
 export default function SignUp() {
-    
+
     const dispatch = useDispatch()
     const inputRef = React.useRef(null);
     const [inputs, setInputs] = React.useState({ username: '', email: '', password: '' })
@@ -64,7 +67,7 @@ export default function SignUp() {
     const handleFileChange = event => {
         const fileObj = event.target.files && event.target.files[0];
         // setImage(fileObj)
-        setImage( URL.createObjectURL(fileObj))
+        setImage(URL.createObjectURL(fileObj))
         setImageFile(event.target.files[0]);
 
 
@@ -78,8 +81,8 @@ export default function SignUp() {
     };
 
 
-    const fetchCreateAccountApi = async()=>{
-        try{
+    const fetchCreateAccountApi = async () => {
+        try {
             setLoader(true)
 
             let formData = new FormData();
@@ -87,23 +90,23 @@ export default function SignUp() {
             formData.append("email", inputs.email);
             formData.append("password", inputs.password);
             formData.append("developer", isDeveloper);
-            if(imageFile != null){formData.append("image", imageFile, 'image-name');}
+            if (imageFile != null) { formData.append("image", imageFile, 'image-name'); }
             const data = await Services.AuthenticationService.getSignUp(formData)
 
             setLoader(false)
-            if(!data){
+            if (!data) {
                 dispatch(actions.ErrorDialogActions.showNoDataFromApi())
-            } else{
-                if(data.data.result === 1){
+            } else {
+                if (data.data.result === 1) {
                     // dispatch(actions.authenticationActions.onSignUp(data.data.response.username,data.data.response.email,data.data.response.image,data.data.response.token))
                     alert(JSON.stringify(data))
                 }
-                else{
-                    dispatch(actions.ErrorDialogActions.showError({header:"Failed To Create Account", description:""+data.data.message}))
+                else {
+                    dispatch(actions.ErrorDialogActions.showError({ header: "Failed To Create Account", description: "" + data.data.message }))
 
                 }
             }
-        }catch (e){
+        } catch (e) {
             setLoader(false)
             dispatch(actions.ErrorDialogActions.showException(e.message))
         }
@@ -126,7 +129,7 @@ export default function SignUp() {
                     <p className='paper-subheading'>A simple chat app project created using socket, React, express, Node as backend, Material UI with open source code</p>
 
                     <div className='username-container'>
-                        <Avatar sx={{ width: 55, height: 55, marginRight: 1, border:'2px solid #00695C' }} src={ image ? image:CameraIcon} onClick={() => { inputRef.current.click(); }} />
+                        <Avatar sx={{ width: 55, height: 55, marginRight: 1, border: '2px solid #00695C' }} src={image ? image : CameraIcon} onClick={() => { inputRef.current.click(); }} />
                         <ErrorInput label={'User Name'} sx={{ flex: 1, width: '100%' }} error={error.username} value={inputs.username} onChange={(e) => { handleInputChange('username', e.target.value) }} />
                         <input
                             style={{ display: 'none' }}
@@ -145,7 +148,12 @@ export default function SignUp() {
                     </Grid>
 
 
-                    <Button variant='contained' sx={{ width: '100%' }} onClick={() => { validate() }} >Create Account</Button>
+                    <LoadingButton
+                        variant='contained'
+                        loadingIndicator="Creating user..."
+                        sx={{ width: '100%' }}
+                        loading={loader}
+                        onClick={() => { validate() }} >Create Account</LoadingButton>
 
                     <div className='signup-container' >
                         Already have account? <Link className='login-text' to={ROUTESNAMES.LOGIN}> Login</Link>
