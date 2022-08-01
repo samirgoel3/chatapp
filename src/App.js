@@ -12,6 +12,10 @@ import PublicRoutes from './routes/PublicRoutes';
 import Dev from './pages/dev';
 import Analytics from './pages/analytics';
 import AnywhereAccesible from './routes/AnywhereAccesibleRoutes';
+import { Provider } from 'react-redux';
+import {store} from './states';
+import BottomErrorDialog from './components/common/BottomErrorDialog';
+
 
 const theme = createTheme({
 
@@ -63,9 +67,10 @@ const isLoggedin = false;
 
 
 function App() {
-  return (
+  return (<Provider store={store}>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
+      <BottomErrorDialog/>
         <Routes>
 
           {/* public routes */}
@@ -94,6 +99,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
+    </Provider>
   );
 }
 

@@ -5,11 +5,8 @@ import { FaGithub, FaLinkedin, FaNodeJs, FaReact, FaSearch } from 'react-icons/f
 import { ImCamera } from "react-icons/im";
 import { SiGmail, SiMongodb, SiPostman, SiSocketdotio, SiMaterialui } from "react-icons/si";
 import { TbSend } from "react-icons/tb";
-import { RiMenu2Line } from "react-icons/ri";
-import { BsMenuAppFill, BsApple } from "react-icons/bs";
-
-
-
+import { RiMenu2Line, RiCloseCircleFill } from "react-icons/ri";
+import { BsMenuAppFill, BsApple } from "react-icons/bs"
 
 
 const ICONS = {
@@ -31,7 +28,8 @@ const ICONS = {
     CHAT_MENU:BsMenuAppFill,
     MATERIAL_UI:SiMaterialui,
     ANDROID:DiAndroid,
-    APPLE:BsApple
+    APPLE:BsApple,
+    CLOSE:RiCloseCircleFill
 }
 
 export default ICONS;

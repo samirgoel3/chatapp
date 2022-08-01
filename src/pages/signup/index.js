@@ -8,15 +8,20 @@ import ICONS from '../../constants/Icons'
 import ROUTESNAMES from '../../constants/RoutesName'
 import CameraIcon from '../../images/ic_camera.png'
 import './signup.css'
-
+import Services from '../../network/services/';
+import {useDispatch} from 'react-redux';
+import {actions} from '../../states/actions';
 
 export default function SignUp() {
-
+    
+    const dispatch = useDispatch()
     const inputRef = React.useRef(null);
     const [inputs, setInputs] = React.useState({ username: '', email: '', password: '' })
     const [error, setError] = React.useState({ username: '', email: "", password: "" })
     const [isDeveloper, setDeveloper] = React.useState(false)
     const [image, setImage] = React.useState(null)
+    const [imageFile, setImageFile] = React.useState(null)
+    const [loader, setLoader] = React.useState(false)
 
     const handleInputChange = (inputKey, value) => {
         setInputs(prevState => ({ ...prevState, [inputKey]: value }))
@@ -52,7 +57,7 @@ export default function SignUp() {
             isValid = false;
         }
         if (isValid) {
-            alert('Do api fetching work')
+            fetchCreateAccountApi()
         }
     };
 
@@ -60,6 +65,8 @@ export default function SignUp() {
         const fileObj = event.target.files && event.target.files[0];
         // setImage(fileObj)
         setImage( URL.createObjectURL(fileObj))
+        setImageFile(event.target.files[0]);
+
 
         if (!fileObj) {
             return;
@@ -69,6 +76,38 @@ export default function SignUp() {
         event.target.value = null;
 
     };
+
+
+    const fetchCreateAccountApi = async()=>{
+        try{
+            setLoader(true)
+
+            let formData = new FormData();
+            formData.append("username", inputs.username);
+            formData.append("email", inputs.email);
+            formData.append("password", inputs.password);
+            formData.append("developer", isDeveloper);
+            if(imageFile != null){formData.append("image", imageFile, 'image-name');}
+            const data = await Services.AuthenticationService.getSignUp(formData)
+
+            setLoader(false)
+            if(!data){
+                dispatch(actions.ErrorDialogActions.showNoDataFromApi())
+            } else{
+                if(data.data.result === 1){
+                    // dispatch(actions.authenticationActions.onSignUp(data.data.response.username,data.data.response.email,data.data.response.image,data.data.response.token))
+                    alert(JSON.stringify(data))
+                }
+                else{
+                    dispatch(actions.ErrorDialogActions.showError({header:"Failed To Create Account", description:""+data.data.message}))
+
+                }
+            }
+        }catch (e){
+            setLoader(false)
+            dispatch(actions.ErrorDialogActions.showException(e.message))
+        }
+    }
 
 
     return (

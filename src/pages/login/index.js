@@ -5,14 +5,18 @@ import ErrorInput from '../../components/common/ErrorInput'
 import TechDescriptionView from '../../components/tech-description'
 import ROUTESNAMES from '../../constants/RoutesName'
 import './login.css'
+import Services from '../../network/services/';
+import {useDispatch} from 'react-redux';
+import {actions} from '../../states/actions';
 
 
 
 export default function Login() {
 
-
+    const dispatch = useDispatch()
     const [inputs, setInputs] = React.useState({ email: '', password: '' })
     const [error,setError] = React.useState({email:"",password:""})
+    const [loader, setLoader] = React.useState(false)
 
     const handleInputChange = (inputKey, value) => {
         setInputs(prevState => ({ ...prevState, [inputKey]: value }))
@@ -43,9 +47,36 @@ export default function Login() {
             isValid = false;
         }
         if (isValid) {
-            alert('Do api fetching work')
+            fetchLoginApi()
         }
     };
+
+
+   
+
+
+    const fetchLoginApi = async()=>{
+        try{
+            setLoader(true)
+            const data = await Services.AuthenticationService.getLogin(inputs.email, inputs.password)
+            setLoader(false)
+            if(!data){
+                dispatch(actions.ErrorDialogActions.showNoDataFromApi())
+            } else{
+                if(data.data.result === 1){
+                    // dispatch(actions.authenticationActions.onSignUp(data.data.response.username,data.data.response.email,data.data.response.image,data.data.response.token))
+                    alert(JSON.stringify(data))
+                }
+                else{
+                    dispatch(actions.ErrorDialogActions.showError({header:"Failed To login", description:""+data.data.message}))
+
+                }
+            }
+        }catch (e){
+            setLoader(false)
+            dispatch(actions.ErrorDialogActions.showException(e.message))
+        }
+    }
 
 
 

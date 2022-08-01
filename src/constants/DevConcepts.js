@@ -99,11 +99,21 @@ const Concepts = [
         technology: 'Mongoose',
         icons: '',
         detail: 'Creating Schema and population technique'
-    }, ,
+    },
     {
         technology: 'Mongoose',
         icons: '',
         detail: 'Upsert technique'
+    },
+    {
+        technology: 'Axios',
+        icons: '',
+        detail: 'Interceptor for tracking logs'
+    },
+    {
+        technology: 'React Front end',
+        icons: '',
+        detail: 'Bottom Dialog accessable from anywhere connected with redux'
     }
 ]
 
