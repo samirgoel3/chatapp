@@ -12,6 +12,7 @@ import Services from '../../network/services/';
 import { useDispatch } from 'react-redux';
 import { actions } from '../../states/actions';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Storage from '../../storage'
 
 
 
@@ -98,8 +99,8 @@ export default function SignUp() {
                 dispatch(actions.ErrorDialogActions.showNoDataFromApi())
             } else {
                 if (data.data.result === 1) {
-                    // dispatch(actions.authenticationActions.onSignUp(data.data.response.username,data.data.response.email,data.data.response.image,data.data.response.token))
-                    alert(JSON.stringify(data))
+                    Storage.Session.saveuserDetails(JSON.stringify(data.data.response))
+                    window.location.reload(false)
                 }
                 else {
                     dispatch(actions.ErrorDialogActions.showError({ header: "Failed To Create Account", description: "" + data.data.message }))

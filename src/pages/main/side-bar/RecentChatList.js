@@ -1,7 +1,6 @@
-import { Avatar, Grid, Typography } from '@mui/material'
-import React, { Component, useEffect, useState } from 'react'
-import COLORS from '../../../constants/Colors'
 import { faker } from '@faker-js/faker';
+import { Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import SidebarItem from '../../../components/sidebar-item';
 
 

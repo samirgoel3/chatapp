@@ -1,14 +1,14 @@
-import { Button, TextField } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ErrorInput from '../../components/common/ErrorInput'
 import TechDescriptionView from '../../components/tech-description'
 import ROUTESNAMES from '../../constants/RoutesName'
+import Services from '../../network/services/'
+import { actions } from '../../states/actions'
 import './login.css'
-import Services from '../../network/services/';
-import { useDispatch } from 'react-redux';
-import { actions } from '../../states/actions';
-import LoadingButton from '@mui/lab/LoadingButton';
+import Storage from '../../storage'
 
 
 
@@ -65,8 +65,8 @@ export default function Login() {
                 dispatch(actions.ErrorDialogActions.showNoDataFromApi())
             } else {
                 if (data.data.result === 1) {
-                    // dispatch(actions.authenticationActions.onSignUp(data.data.response.username,data.data.response.email,data.data.response.image,data.data.response.token))
-                    alert(JSON.stringify(data))
+                    Storage.Session.saveuserDetails(JSON.stringify(data.data.response))
+                    window.location.reload(false)
                 }
                 else {
                     dispatch(actions.ErrorDialogActions.showError({ header: "Failed To login", description: "" + data.data.message }))
@@ -85,7 +85,6 @@ export default function Login() {
         <div container
             className='root'
             justifyContent='center' >
-
             <div className='left-root'>
                 <TechDescriptionView />
             </div>

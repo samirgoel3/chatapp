@@ -114,6 +114,11 @@ const Concepts = [
         technology: 'React Front end',
         icons: '',
         detail: 'Bottom Dialog accessable from anywhere connected with redux'
+    },
+    {
+        technology: 'Mongoose',
+        icons: '',
+        detail: 'Regex query and its options'
     }
 ]
 

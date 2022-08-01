@@ -15,6 +15,7 @@ import AnywhereAccesible from './routes/AnywhereAccesibleRoutes';
 import { Provider } from 'react-redux';
 import {store} from './states';
 import BottomErrorDialog from './components/common/BottomErrorDialog';
+import Session from './storage/Session';
 
 
 const theme = createTheme({
@@ -62,13 +63,14 @@ const theme = createTheme({
 });
 
 
-const isLoggedin = false;
+const isLoggedin = Session.getUserData() === null? false : true;
 
 
 
 function App() {
   return (<Provider store={store}>
     <ThemeProvider theme={theme}>
+      {console.log("----->   "+Session.getUserData)}
       <BrowserRouter>
       <BottomErrorDialog/>
         <Routes>
@@ -83,6 +85,7 @@ function App() {
 
           {/* private routes */}
           <Route element={<ProtectedRoute isAuthenticated={isLoggedin} />}>
+            <Route path={'/'} element={<Main />} />
             <Route path={ROUTESNAMES.ROUTESNAMES.MAIN} element={<Main />} />
             <Route path={ROUTESNAMES.ROUTESNAMES.ANALYTICS} element={<Analytics />} />
           </Route>
