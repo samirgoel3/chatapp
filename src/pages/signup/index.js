@@ -1,22 +1,74 @@
-import { Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper, Switch, TextField, Typography } from '@mui/material'
+import { Avatar, Button, Grid, Switch, Typography } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import TechDescriptionView from '../../components/common/TechDescriptionView'
+import ErrorInput from '../../components/common/ErrorInput'
+import TechDescriptionView from '../../components/tech-description'
 import COLORS from '../../constants/Colors'
 import ICONS from '../../constants/Icons'
 import ROUTESNAMES from '../../constants/RoutesName'
+import CameraIcon from '../../images/ic_camera.png'
 import './signup.css'
 
 
 export default function SignUp() {
 
+    const inputRef = React.useRef(null);
+    const [inputs, setInputs] = React.useState({ username: '', email: '', password: '' })
+    const [error, setError] = React.useState({ username: '', email: "", password: "" })
+    const [isDeveloper, setDeveloper] = React.useState(false)
+    const [image, setImage] = React.useState(null)
 
-    const [password, setPassword] = React.useState("")
-    const [showPassword, setShowPassword] = React.useState(false)
-
-    const handlePasswordChange = (value) => {
-        setPassword(value)
+    const handleInputChange = (inputKey, value) => {
+        setInputs(prevState => ({ ...prevState, [inputKey]: value }))
+        setError(prevState => ({ ...prevState, [inputKey]: "" }))
     }
+
+    function handleError(errorKey, text) {
+        setError(prevState => ({ ...prevState, [errorKey]: text }))
+    }
+
+    const validate = () => {
+
+        let isValid = true;
+
+        if (!inputs.username) {
+            handleError('username', 'Please input username');
+            isValid = false;
+        }
+
+        if (!inputs.email) {
+            handleError('email', 'Please input email');
+            isValid = false;
+        } else if (!inputs.email.match(/\S+@\S+\.\S+/)) {
+            handleError('email', 'Please input a valid email');
+            isValid = false;
+        }
+
+        if (!inputs.password) {
+            handleError('password', 'Please input password');
+            isValid = false;
+        } else if (inputs.password.length < 5) {
+            handleError('password', 'Min password length of 5');
+            isValid = false;
+        }
+        if (isValid) {
+            alert('Do api fetching work')
+        }
+    };
+
+    const handleFileChange = event => {
+        const fileObj = event.target.files && event.target.files[0];
+        // setImage(fileObj)
+        setImage( URL.createObjectURL(fileObj))
+
+        if (!fileObj) {
+            return;
+        }
+
+        // 👇️ reset file input
+        event.target.value = null;
+
+    };
 
 
     return (
@@ -35,47 +87,27 @@ export default function SignUp() {
                     <p className='paper-subheading'>A simple chat app project created using socket, React, express, Node as backend, Material UI with open source code</p>
 
                     <div className='username-container'>
-                        <div className='user-image'>
-                            <ICONS.CAMERA size={20} color={'white'} />
-                        </div>
-                        <TextField
-                            label="User Name"
-                            variant="outlined"
-                            placeholder='Enter your name here'
-                            sx={{ flex: 1, width: '100%' }} />
+                        <Avatar sx={{ width: 55, height: 55, marginRight: 1, border:'2px solid #00695C' }} src={ image ? image:CameraIcon} onClick={() => { inputRef.current.click(); }} />
+                        <ErrorInput label={'User Name'} sx={{ flex: 1, width: '100%' }} error={error.username} value={inputs.username} onChange={(e) => { handleInputChange('username', e.target.value) }} />
+                        <input
+                            style={{ display: 'none' }}
+                            ref={inputRef}
+                            type="file"
+                            onChange={handleFileChange}
+                        />
 
                     </div>
-                    <TextField label="Email" variant="outlined" placeholder='Enter you email' sx={{ width: '100%', marginBottom: 4 }} />
-
-                    <FormControl sx={{ marginBottom: 2, width: '100%' }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-password"
-                            type={showPassword ? 'text' : 'password'}
-                            value={password}
-                            onChange={(e) => { handlePasswordChange(e.target.value) }}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={() => { setShowPassword(!showPassword) }}
-                                        edge="end">
-                                        {showPassword ? <ICONS.OPEN_EYE_ICON /> : <ICONS.CLOSE_EYE_ICON />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            label="Password"
-                        />
-                    </FormControl>
-
+                    <ErrorInput label={'Email'} sx={{ flex: 1, width: '100%' }} error={error.email} value={inputs.email} onChange={(e) => { handleInputChange('email', e.target.value) }} />
+                    <ErrorInput label={'Password'} sx={{ flex: 1, width: '100%' }} type={'password'} error={error.password} value={inputs.password} onChange={(e) => { handleInputChange('password', e.target.value) }} />
 
                     <Grid container className='dev-container'>
                         <Typography flex={1} fontWeight={600}>Are you a developer?</Typography>
-                        <Switch />
+                        <Switch defaultChecked={isDeveloper} onChange={(e) => { setDeveloper(!isDeveloper) }} />
                     </Grid>
 
 
-                    <Button variant='contained' sx={{ width: '100%' }}>Create Account</Button>
+                    <Button variant='contained' sx={{ width: '100%' }} onClick={() => { validate() }} >Create Account</Button>
+
                     <div className='signup-container' >
                         Already have account? <Link className='login-text' to={ROUTESNAMES.LOGIN}> Login</Link>
                     </div>
