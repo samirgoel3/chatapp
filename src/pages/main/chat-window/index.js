@@ -5,17 +5,16 @@ import ICONS from '../../../constants/Icons';
 import ChatBox from './ChatBox';
 import ChatTopBar from './ChatTopBar';
 
+import { useDispatch } from 'react-redux'
+import { actions } from '../../../states/actions'
+import { useSelector } from 'react-redux';
 
 
-export default function ChatWindow() {
 
-    return (
-        <Grid container direction={'column'} width={'100%'} height={'100%'} >
-
-            <ChatTopBar />
-
-            <ChatBox />
-
+const getChatView = (selectedChat)=>{
+    return <div>
+          <ChatTopBar chatData={selectedChat}/>
+            <ChatBox chat_id={selectedChat.chat_id} />
             <Grid
                 container
                 sx={{ width: '100%', backgroundColor: COLORS.TEAL_200, padding: 1 }}
@@ -36,6 +35,21 @@ export default function ChatWindow() {
                     }} />
                 </div>
             </Grid>
+    </div>
+}
+
+export default function ChatWindow() {
+
+    const dispatch = useDispatch()
+    const stateData = useSelector(state => state)
+
+    return (
+        
+        <Grid container direction={'column'} width={'100%'} height={'100%'} >
+
+            {stateData.recentChatData.selected_chat == null ? null : getChatView(stateData.recentChatData.selected_chat)}
+           
+           
         </Grid>
     )
 }

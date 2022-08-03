@@ -4,10 +4,10 @@ import COLORS from '../../../constants/Colors';
 
 
 
-const getItem = (element, position) => {
+const getItem = (element, position, onElementSelected) => {
     return (
         <Grid item sx={{ display: 'flex', padding: '0px 7px', justifyContent: 'flex-start', alignItems: 'center', height: 60, width: '100%', backgroundColor: COLORS.PRIMARY_LIGHT }}
-            direction={'row'} >
+            direction={'row'} onClick={()=>{ onElementSelected(element)}}>
             <Avatar sx={{ width: 30, height: 30 }}
                 src={element.image}
             />
@@ -22,7 +22,7 @@ const getItem = (element, position) => {
 
 
 
-export default function SearchedList({ searchedData, error }) {
+export default function SearchedList({ searchedData, error, onElementSelected }) {
     const [windowSize, setWindowSize] = useState(getWindowSize())
 
     useEffect(() => {
@@ -43,10 +43,10 @@ export default function SearchedList({ searchedData, error }) {
             {error ==  null ?
                 <div style={{ height: windowSize.innerWidth < 900 ? (windowSize.innerHeight - 105) : (windowSize.innerHeight - 156), overflowY: 'scroll' }}>
                     {
-                        searchedData.map((e, i) => getItem(e, i))
+                        searchedData.map((e, i) => getItem(e, i, onElementSelected))
                     }
                 </div> :
-                <Typography>{error}</Typography>
+                <Typography textAlign={'center'} color={'white'}>{error}</Typography>
             }
         </Grid>
     )

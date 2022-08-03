@@ -1,14 +1,16 @@
 import { Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import GroupChatItem from '../../../components/sidebar-item/GroupChatItem';
+import RecentChatItem from '../../../components/sidebar-item/RecentChatItem';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { actions } from '../../../states/actions';
+import AllUserItem from '../../../components/sidebar-item/AllUserItem';
 
 
+const mock = ["","","","","","","",""]
 
 
-export default function GroupList() {
+export default function AllUserList() {
 
     const stateData = useSelector(state => state)
     const dispatch = useDispatch()
@@ -31,7 +33,7 @@ export default function GroupList() {
         <Grid container sx={{ height: '100%' }} direction={'column'}>
             <div style={{ height: windowSize.innerWidth < 900 ?(windowSize.innerHeight - 105): (windowSize.innerHeight - 156), overflowY: 'scroll' }}>
                 {
-                    stateData.recentChatData.group_chats.map((e, i) => <GroupChatItem element={e} position={i}/>)
+                    mock.map((e, i)=> <AllUserItem element={e} position={i}/>)
                 }
             </div>
         </Grid>

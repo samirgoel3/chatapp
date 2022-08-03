@@ -5,7 +5,7 @@ import COLORS from '../../../constants/Colors'
 import { faker } from '@faker-js/faker'
 import MobileRightSideDrawer from './MobileRightSideDrawer'
 
-export default function ChatTopBar() {
+export default function ChatTopBar({chatData}) {
     return (
         <Grid
             container
@@ -13,10 +13,9 @@ export default function ChatTopBar() {
             flexDirection={'row'}
             justifyContent={'flex-start'}
             alignItems={'center'}>
-
-            <Avatar style={{ width: 35, height: 35 }} src={faker.image.avatar()} />
+            <Avatar style={{ width: 35, height: 35 }} src={chatData.chaticon} />
             <Grid container flexDirection={'column'} flex={1} sx={{ paddingInline: 2 }}>
-                <Typography sx={{ color: 'white', fontSize: 15, fontWeight: 700 }}>{faker.name.firstName() + " " + faker.name.lastName()}</Typography>
+                <Typography sx={{ color: 'white', fontSize: 15, fontWeight: 700 }}>{chatData.chatname + ' CHAT ID: '+ chatData.chat_id}</Typography>
                 <Typography sx={{ color: 'white', fontSize: 10, fontWeight: 400 }}>Last seen 04:34 PM</Typography>
             </Grid>
             <ICONS.OPEN_EYE_ICON style={{ width: 20, height: 20, color: 'white' }} />

@@ -25,7 +25,8 @@ const TopBar = ({ children }) => {
         <Grid item  display={{ xl: 'block', lg: 'block', md: 'block', sm: 'none', xs: 'none' }}> <ConceptsUsedInSite /></Grid>
 
         <div style={{ display: 'flex', flex: 1 }} />
-        <UserInfo />
+        <div style={{ paddingRight:12}}> <UserInfo /> </div>
+        
 
       </Grid>
 

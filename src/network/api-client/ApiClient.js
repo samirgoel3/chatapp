@@ -35,6 +35,9 @@ const apiClient = () => {
     });
 
     axiosInstance.interceptors.request.use(async function (config) {
+        // console.log("#*#*#*#*#*#*#*#*#*#*#*#* "+JSON.stringify(config.headers))
+        // console.log("#*#*#*#*#*#*#*#*#*#*#*#* "+JSON.stringify(config.baseURL))
+
         try {
         } finally {
             return config;
@@ -44,7 +47,15 @@ const apiClient = () => {
 
     axiosInstance.interceptors.response.use(
         async function (response) {
+
+            // console.log("#*#*#*#*#*#*#*#*#*#*#*#* "+JSON.stringify(response.data))
+
             try {
+                if (response.data.errors.length > 0) {
+                    Storage.Session.saveuserDetails(null)
+                    alert("It seems you have logged in another device please login again");
+                    window.location.reload(false)
+                }
             } finally {
                 return response;
             }
