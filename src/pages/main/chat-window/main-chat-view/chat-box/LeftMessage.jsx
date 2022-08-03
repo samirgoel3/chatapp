@@ -1,13 +1,13 @@
 import { Avatar, Typography, Popover, Grid, IconButton } from '@mui/material'
 import React, { useEffect } from 'react'
-import COLORS from '../../../constants/Colors'
-import ICONS from '../../../constants/Icons';
-import Services from '../../../network/services';
-import Storage from '../../../storage';
+import COLORS from '../../../../../constants/Colors'
+import ICONS from '../../../../../constants/Icons';
+import Services from '../../../../../network/services';
+import Storage from '../../../../../storage';
 
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { actions } from '../../../states/actions/index';
+import { actions } from '../../../../../states/actions/index';
 
 
 
@@ -35,7 +35,7 @@ export default function LeftChatBox({ data }) {
                     dispatch(actions.ErrorDialogActions.showNoDataFromApi())
                 } else {
                     if (result.data.result === 1) {
-                        console.log('********** '+result.data.message)
+                        // console.log('********** '+result.data.message)
                     }
                 }
             } catch (e) {
@@ -53,7 +53,7 @@ export default function LeftChatBox({ data }) {
             <Avatar style={{ width: 30, height: 30 }} src={data.sender.image} />
             <div style={{ marginLeft: 5 }}>
                 <Typography sx={{ fontSize: 10, fontWeight: 700, color: '#333' }}>{data.sender.username}</Typography>
-                <Typography sx={{ backgroundColor: COLORS.TEAL_100, padding: 1, fontSize: 10, borderTopRightRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 3 }}>
+                <Typography sx={{ backgroundColor: COLORS.TEAL_100, padding: 1, fontSize: 12, borderTopRightRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 3 }}>
                     {data.content.message}
                     <Grid container alignItems={'center'} sx={{ marginTop: 1 }} justifyContent={'center'}>
                         <Grid item flex={1}>

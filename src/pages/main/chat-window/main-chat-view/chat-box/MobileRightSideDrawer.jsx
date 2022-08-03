@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Drawer } from '@mui/material'
-import ICONS from '../../../constants/Icons'
-import SideBar from '../side-bar'
+import ICONS from '../../../../../constants/Icons'
+import SideBar from '../../../side-bar'
 
 
 

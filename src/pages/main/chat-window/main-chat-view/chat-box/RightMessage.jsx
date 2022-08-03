@@ -1,7 +1,8 @@
 import { Avatar, Grid, IconButton, Popover, Typography } from '@mui/material';
 import React from 'react';
-import COLORS from '../../../constants/Colors';
-import ICONS from '../../../constants/Icons';
+import COLORS from '../../../../../constants/Colors';
+import ICONS from '../../../../../constants/Icons';
+
 
 
 
@@ -26,7 +27,7 @@ export default function RightChatBox({ data }) {
         <div style={{ padding: 5, display: 'flex', display: 'flex', flexDirection: 'row', alignSelf: 'flex-end', maxWidth: '65%' }}>
             <div style={{ marginRight: 10 }}>
                 <Typography sx={{ fontSize: 10, fontWeight: 700, color: '#333', textAlign: 'end' }}>{data.sender.username}</Typography>
-                <Typography sx={{ backgroundColor: COLORS.TEAL_200, padding: 1, fontSize: 10, borderTopRightRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 3 }}>
+                <Typography sx={{ backgroundColor: COLORS.TEAL_200, padding: 1, fontSize: 12, borderTopRightRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 3 }}>
                     {data.content.message}
 
 

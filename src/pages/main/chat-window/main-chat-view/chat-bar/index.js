@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
-import { Grid, Avatar, Typography } from '@mui/material'
-import ICONS from '../../../constants/Icons'
-import COLORS from '../../../constants/Colors'
-import { faker } from '@faker-js/faker'
-import MobileRightSideDrawer from './MobileRightSideDrawer'
+import { Avatar, Grid, Typography } from '@mui/material'
+import React from 'react'
+import MobileRightSideDrawer from '../chat-box/MobileRightSideDrawer';
+import COLORS from '../../../../../constants/Colors';
+import ICONS from '../../../../../constants/Icons';
 
-export default function ChatTopBar({chatData}) {
+
+
+
+export default function ChatBar({chatData}) {
     return (
         <Grid
             container
