@@ -2,12 +2,17 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import COLORS from '../../../constants/Colors';
+import Services from '../../../network/services';
+import AllUserList from './AllUsersList';
+import CreateChatView from './CreateChatView';
 import GroupList from './GroupsList';
 import RecentChat from './RecentChatList';
 import SearchBar from './Searchbar';
 import SearchedList from './SearchedList';
 import TabsBar from './TabsBar';
-import AllUserList from './AllUsersList';
+import { actions } from '../../../states/actions/index';
+import Storage from '../../../storage';
+
 
 
     
@@ -15,7 +20,7 @@ import AllUserList from './AllUsersList';
 
 
 
-export default function SideBar({onElementSelected}) {
+export default function SideBar() {
 
     const [selectedTab, setSelectedtab] = React.useState(0)
     const [searchedResult, setSearchedResult] = React.useState([])
@@ -28,9 +33,43 @@ export default function SideBar({onElementSelected}) {
     const handleOnelementSelectedOnSearchedList = (element) => {
         setSearchedResult([])
         setSearchedError(null)
-        onElementSelected(element)
+        
+        
+        // check weather this already exist in recent chat or not
+        // If not exist then add view in side indicating creating chat
+        // if already exist then shift that element to top in redux store in recent chat and selected position is 0
+        dispatch(actions.MessagesActions.removeAllMessages())
+        fetchCreateChat(element)
     }
 
+    const fetchCreateChat = async (element)=>{
+
+        try {
+            setLoader(true)
+            const data = await Services.ChatService.getCreateChat(""+Storage.Session.getUserData().username+"-"+element.username,""+element._id)
+            setLoader(false)
+            if (!data) {
+                dispatch(actions.ErrorDialogActions.showNoDataFromApi())
+            } else {
+                if (data.data.result === 1) {
+                    let objectToAddUpdateInRecentChat = {
+                        chat_id:""+data.data.response.chat_id,
+                        chatname:""+Storage.Session.getUserData().username+"-"+element.username,
+                        chaticon:""+element.image,
+                        last_message:null
+                    }
+                    dispatch(actions.RecentChatActions.addChattoFirstPosition(objectToAddUpdateInRecentChat))                   
+                }
+                else {
+                    dispatch(actions.ErrorDialogActions.showError({ header: "Failed To Create Chat", description: "" + data.data.message }))
+
+                }
+            }
+        } catch (e) {
+            setLoader(false)
+            dispatch(actions.ErrorDialogActions.showException(e.message))
+        }
+    }
    
 
 
@@ -51,6 +90,8 @@ export default function SideBar({onElementSelected}) {
 
 
             <Grid item flex={1} >
+
+                { loader? <CreateChatView/> : null}
 
                 {searchedResult.length > 0 || searchedError != null ?
                     <SearchedList

@@ -8,6 +8,11 @@ const MessagesReducer = (state = initialState, action)=>{
             ...state,
             messages:action.payload
         };
+    }if(action.type === 'remove_all_messages'){
+        return {
+            ...state,
+            messages:[]
+        };
     }else{
         return state;
     }

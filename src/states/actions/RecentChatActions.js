@@ -32,10 +32,23 @@ const setSelectedChat = (selectedChat)=>{
 }
 
 
+const addChattoFirstPosition = (chatData)=>{
+
+    console.log('******* trying to add this in state '+chatData)
+
+    return async ( dispatch) =>{
+        dispatch({
+            type:'add_chat_to_first_position',
+            payload:chatData
+        })
+    }
+}
 
 
 
 
 
 
-export default {setInitialChats, setSelectedPosition, setSelectedChat}
+
+
+export default {setInitialChats, setSelectedPosition, setSelectedChat, addChattoFirstPosition}

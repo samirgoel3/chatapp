@@ -22,6 +22,16 @@ const RecentChatReducer = (state = initialState, action)=>{
             ...state,
             selected_chat:action.payload
         };
+    }if(action.type === 'add_chat_to_first_position'){
+        let recentChats = state.recent_chats
+        recentChats.splice(0, 0, action.payload)
+        return {
+            ...state,
+            recent_chats:recentChats,
+            selected_position:0,
+            selected_chat:action.payload
+
+        };
     }else{
         return state;
     }

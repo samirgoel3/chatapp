@@ -8,4 +8,16 @@ const setMessages = (messagesArray)=>{
 }
 
 
-export default {setMessages}
+const removeAllMessages = ()=>{
+    return async ( dispatch) =>{
+        dispatch({
+            type:'remove_all_messages',
+            payload:null
+        })
+    }
+}
+
+
+
+
+export default {setMessages, removeAllMessages}
