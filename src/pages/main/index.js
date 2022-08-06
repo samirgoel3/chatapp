@@ -28,39 +28,7 @@ export default function Main() {
         //     console.log(`connect_error due to ${err.message}`);
         //   });
 
-        fetchChatWithReadMessage()
     }, [])
-
-
-    const fetchChatWithReadMessage = async () => {
-        try {
-            setLoader(true)
-            const data = await Services.ChatService.getChatWithReadMessages()
-            setLoader(false)
-            if (!data) {
-                dispatch(actions.ErrorDialogActions.showNoDataFromApi())
-            } else {
-                if (data.data.result === 1) {
-                    dispatch(actions.RecentChatActions.setInitialChats(data.data.response))
-                    if (data.data.response.one_to_one_chat.length > 0) {
-                        console.log("***** running if condition")
-                        // dispatch(actions.RecentChatActions.setSelectedPosition(0))
-                        // dispatch(actions.RecentChatActions.setSelectedChat(data.data.response.one_to_one_chat[0]))
-                        // dispatch(actions.MessagesActions.setMessages([data.data.response.one_to_one_chat[0].last_message])) 
-                    }else{
-                        console.log("***** running else condition")
-                    }
-                }
-                else {
-                    // no recent chat available
-                }
-            }
-        } catch (e) {
-            setLoader(false)
-            dispatch(actions.ErrorDialogActions.showException(e.message))
-        }
-    }
-
 
 
 

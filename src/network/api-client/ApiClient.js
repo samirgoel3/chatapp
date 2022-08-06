@@ -3,6 +3,7 @@ import Storage from '../../storage';
 
 
 const apiClient = () => {
+    // const REACT_APP_API_URL = "http://localhost:5000/api/v1/";
     const REACT_APP_API_URL = "http://44.206.245.7:5000/api/v1/";
 
     // const getHeader = () => {

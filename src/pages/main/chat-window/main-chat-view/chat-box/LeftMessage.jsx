@@ -11,7 +11,7 @@ import { actions } from '../../../../../states/actions/index';
 
 
 
-export default function LeftChatBox({ data }) {
+export default function LeftChatBox({ data, chat_id }) {
 
     const stateData = useSelector(state => state)
     const dispatch = useDispatch()
@@ -35,7 +35,12 @@ export default function LeftChatBox({ data }) {
                     dispatch(actions.ErrorDialogActions.showNoDataFromApi())
                 } else {
                     if (result.data.result === 1) {
-                        // console.log('********** '+result.data.message)
+                        data.readby.push({_id:""+Storage.Session.getUserData()._id, username:""+Storage.Session.getUserData().username, image:""+Storage.Session.getUserData().image})
+                        let chatObj = {
+                            chat_id:chat_id,
+                            last_message:data
+                        }
+                        dispatch(actions.RecentChatActions.updateLastMessageInRecentChat(chatObj))
                     }
                 }
             } catch (e) {

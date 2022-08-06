@@ -73,7 +73,7 @@ export default function ChatBox({ chat_id }) {
                     {
                         stateData.messagesData.messages.map((e, i) => {
                             return e.sender._id == Storage.Session.getUserData()._id ?
-                                <RightChatBox data={e} /> : <LeftChatBox data={e} />
+                                <RightChatBox data={e} /> : <LeftChatBox data={e} chat_id={chat_id}/>
                         })
                     }
                     <div ref={bottomRef} />

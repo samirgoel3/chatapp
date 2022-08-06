@@ -4,6 +4,8 @@ import COLORS from '../../constants/Colors'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { actions } from '../../states/actions';
+import Storage from '../../storage';
+
 
 
 
@@ -14,7 +16,7 @@ export default function RecentChatItem({element, position}){
     const dispatch = useDispatch()
 
     return (
-        <Grid item sx={{ display: 'flex', padding: '0px 7px', justifyContent: 'flex-start', alignItems: 'center', height: 60, width: '100%', backgroundColor: position== stateData.recentChatData.selected_position?COLORS.PRIMARY_DARK:COLORS.PRIMARY_LIGHT }}
+        <Grid item sx={{ display: 'flex', padding: '0px 7px', justifyContent: 'flex-start', alignItems: 'center', height: 60, width: '100%', backgroundColor: position== stateData.recentChatData.selected_position?COLORS.TEAL_A700:COLORS.PRIMARY_LIGHT, position:'relative' }}
         direction={'row'} onClick={()=>{ 
             dispatch(actions.RecentChatActions.setSelectedPosition(position)) 
             dispatch(actions.RecentChatActions.setSelectedChat(element)) 
@@ -32,6 +34,17 @@ export default function RecentChatItem({element, position}){
                 </Grid>
             </Grid>
         </Grid>
+        {
+            element.last_message != null ? 
+            
+            element.last_message.sender._id == Storage.Session.getUserData()._id ? null :
+            element.unread_message_count >0? 
+            <Typography sx={{position:'absolute',right:5, padding:'3px 5px', top:10, backgroundColor:'red', borderRadius:40, color:'white', fontWeight:700, fontSize:10}}>{element.unread_message_count}</Typography>            
+            :null
+            :null
+        }
+        
+        
     </Grid>
     )
 }
