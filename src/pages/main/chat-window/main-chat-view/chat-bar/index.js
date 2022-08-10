@@ -11,7 +11,7 @@ export default function ChatBar({chatData}) {
     return (
         <Grid
             container
-            sx={{ width: '100%', height: 50, backgroundColor: COLORS.PRIMARY_LIGHT, paddingInline: 2 }}
+            sx={{ width: '100%', height: 50, backgroundColor: COLORS.PRIMARY_DARK, paddingInline: 2 }}
             flexDirection={'row'}
             justifyContent={'flex-start'}
             alignItems={'center'}>

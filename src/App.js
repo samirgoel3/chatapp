@@ -70,7 +70,6 @@ const isLoggedin = Session.getUserData() === null? false : true;
 function App() {
   return (<Provider store={store}>
     <ThemeProvider theme={theme}>
-      {console.log("----->   "+Session.getUserData)}
       <BrowserRouter>
       <BottomErrorDialog/>
         <Routes>

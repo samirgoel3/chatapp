@@ -1,13 +1,13 @@
-import { Button, Grid, Stack } from '@mui/material'
-import React from 'react'
+import { Button, Grid, Stack, CircularProgress } from '@mui/material'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import COLORS from '../../../../../constants/Colors'
+import useBus from 'use-bus'
 import Services from '../../../../../network/services'
 import { actions } from '../../../../../states/actions'
 import Storage from '../../../../../storage'
 import LeftChatBox from './LeftMessage'
-import RightChatBox from './RightMessage';
-import { useEffect } from 'react'
+import RightChatBox from './RightMessage'
+
 
 
 var mInterval = null;
@@ -37,8 +37,15 @@ export default function ChatBox({ chat_id }) {
     }, [chat_id]);
 
 
+    useBus(
+        'FETCH_CHAT',()=>{
+            fetchChat()
+        }
+      )
 
-    const fetchChat = async (chat_id) => {
+
+
+    const fetchChat = async () => {
         try {
             setLoader(true)
             const data = await Services.MessageService.getAllMessagesByChatId(chat_id)
@@ -67,8 +74,8 @@ export default function ChatBox({ chat_id }) {
 
     return (
         <div style={{ position: 'relative' }}>
-            <Grid container alignItems={'flex-end'} sx={{ overflowY: 'scroll', backgroundColor: COLORS.PRIMARY_EXTRA_LIGHT, height: '80vh', position: 'relative' }} >
-
+            <Grid container alignItems={'flex-end'} sx={{ overflowY: 'scroll',height: '80vh', position: 'relative' }} >
+                
                 <Stack style={{ width: '100%' }}>
                     {
                         stateData.messagesData.messages.map((e, i) => {
@@ -80,10 +87,16 @@ export default function ChatBox({ chat_id }) {
 
                 </Stack>
             </Grid>
+
+            <div></div>
+           
+           
             <Button
                 variant='contained'
-                onClick={() => { fetchChat(chat_id); }}
-                sx={{ position: 'absolute', top: 10, right: 10, fontSize: 8 }}>RELOAD {chat_id}</Button>
+                onClick={() => { fetchChat(); }}
+                sx={{ position: 'absolute', top: 10, right: 10, fontSize: 8 }}>
+                     {loader?<CircularProgress size={15} sx={{color:'white'}}/>:'Reload' }
+                     </Button> 
         </div>
 
     )

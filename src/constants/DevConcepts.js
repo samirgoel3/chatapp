@@ -119,6 +119,16 @@ const Concepts = [
         technology: 'Mongoose',
         icons: '',
         detail: 'Regex query and its options'
+    },
+    {
+        technology: 'React',
+        icons: '',
+        detail: 'Reduc Dev tools and its concepts'
+    },
+    {
+        technology: 'React',
+        icons: '',
+        detail: 'Use Bus for event invokation'
     }
 ]
 

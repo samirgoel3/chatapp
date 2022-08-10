@@ -3,8 +3,8 @@ import Storage from '../../storage';
 
 
 const apiClient = () => {
-    const REACT_APP_API_URL = "http://localhost:5000/api/v1/";
-    // const REACT_APP_API_URL = "http://44.206.245.7:5000/api/v1/";
+    // const REACT_APP_API_URL = "http://localhost:5000/api/v1/";
+    const REACT_APP_API_URL = "http://44.206.245.7:5000/api/v1/";
 
     // const getHeader = () => {
     //     if (Storage.Session.getUserData === null) {
@@ -48,9 +48,6 @@ const apiClient = () => {
 
     axiosInstance.interceptors.response.use(
         async function (response) {
-
-            console.log("#*#*#*#*#*#*#*#*#*#*#*#* "+JSON.stringify(response.data))
-
             try {
                 if (response.data.result === 3) {
                     Storage.Session.saveuserDetails(null)
