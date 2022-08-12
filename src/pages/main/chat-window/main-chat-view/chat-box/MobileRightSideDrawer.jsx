@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
 import { Drawer } from '@mui/material'
+import React from 'react'
+import useBus from 'use-bus'
 import ICONS from '../../../../../constants/Icons'
 import SideBar from '../../../side-bar'
 
@@ -9,6 +10,10 @@ import SideBar from '../../../side-bar'
 export default function MobileRightSideDrawer() {
 
     const [drawerOpen, setDrawerOpen] = React.useState(false)
+
+    useBus('CLOSE_DRAWER',()=>{ setDrawerOpen(false)})
+
+
 
     return (
         <React.Fragment key={'right'}>
@@ -21,7 +26,6 @@ export default function MobileRightSideDrawer() {
                 anchor={'right'}
                 open={drawerOpen}
                 onClose={() => { setDrawerOpen(!drawerOpen) }}>
-
                 <SideBar />
 
             </Drawer>

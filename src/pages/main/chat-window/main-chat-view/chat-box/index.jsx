@@ -10,10 +10,8 @@ import RightChatBox from './RightMessage'
 
 
 
-var mInterval = null;
 export default function ChatBox({ chat_id }) {
 
-    const [message, setMessage] = React.useState(["", "", "", "", "", "", "", "", "", ""])
     const bottomRef = React.useRef(null);
     const [loader, setLoader] = React.useState(false)
     const stateData = useSelector(state => state)
@@ -25,30 +23,19 @@ export default function ChatBox({ chat_id }) {
     //     bottomRef.current.scrollIntoView({ behavior: 'smooth' })
     // }, [message]);
 
-    useEffect(() => {
-        if (mInterval != null) {
-            console.log('**** Clearing interval')
-            clearInterval(mInterval)
-        }
-        // mInterval = setInterval(() => {
-        //     // console.log('**** Some chat id ' + chat_id)
-        //     fetchChat(chat_id)
-        // }, 1000);
-    }, [chat_id]);
+    useEffect(() => {fetchChat(chat_id)}, [chat_id]);
 
 
-    useBus(
-        'FETCH_CHAT',()=>{
-            fetchChat()
-        }
-      )
+    useBus('FETCH_CHAT',(data)=>{
+        fetchChat(data.payload.chat_id)
+    })
 
 
 
-    const fetchChat = async () => {
+    const fetchChat = async (chatId) => {
         try {
             setLoader(true)
-            const data = await Services.MessageService.getAllMessagesByChatId(chat_id)
+            const data = await Services.MessageService.getAllMessagesByChatId(chatId)
 
             setLoader(false)
             if (!data) {
@@ -61,7 +48,7 @@ export default function ChatBox({ chat_id }) {
                     }, 500)
                 }
                 else {
-                    dispatch(actions.ErrorDialogActions.showError({ header: "No Data Found", description: "" + data.data.message }))
+                    // dispatch(actions.ErrorDialogActions.showError({ header: "No Data Found", description: "" + data.data.message }))
                 }
             }
         } catch (e) {
@@ -93,7 +80,7 @@ export default function ChatBox({ chat_id }) {
            
             <Button
                 variant='contained'
-                onClick={() => { fetchChat(); }}
+                onClick={() => { fetchChat(chat_id); }}
                 sx={{ position: 'absolute', top: 10, right: 10, fontSize: 8 }}>
                      {loader?<CircularProgress size={15} sx={{color:'white'}}/>:'Reload' }
                      </Button> 

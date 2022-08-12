@@ -129,6 +129,11 @@ const Concepts = [
         technology: 'React',
         icons: '',
         detail: 'Use Bus for event invokation'
+    },
+    {
+        technology: 'React',
+        icons: '',
+        detail: 'Redirect not workign after deploy in '
     }
 ]
 

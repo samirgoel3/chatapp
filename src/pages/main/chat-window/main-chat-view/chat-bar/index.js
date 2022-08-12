@@ -17,13 +17,11 @@ export default function ChatBar({chatData}) {
             alignItems={'center'}>
             <Avatar style={{ width: 35, height: 35 }} src={chatData.chaticon} />
             <Grid container flexDirection={'column'} flex={1} sx={{ paddingInline: 2 }}>
-                <Typography sx={{ color: 'white', fontSize: 15, fontWeight: 700 }}>{chatData.chatname + ' CHAT ID: '+ chatData.chat_id}</Typography>
+                <Typography sx={{ color: 'white', fontSize: 15, fontWeight: 700 }}>{chatData.chatname}</Typography>
+                {/* <Typography sx={{ color: 'white', fontSize: 15, fontWeight: 700 }}>{chatData.chatname + ' CHAT ID: '+ chatData.chat_id}</Typography> */}
                 <Typography sx={{ color: 'white', fontSize: 10, fontWeight: 400 }}>Last seen 04:34 PM</Typography>
             </Grid>
             <ICONS.OPEN_EYE_ICON style={{ width: 20, height: 20, color: 'white' }} />
-            <Grid display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' }} sx={{marginInline:2}}>
-                <MobileRightSideDrawer/>
-            </Grid>
         </Grid>
     )
 }

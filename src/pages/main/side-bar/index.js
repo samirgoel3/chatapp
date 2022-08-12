@@ -12,12 +12,8 @@ import SearchedList from './SearchedList';
 import TabsBar from './TabsBar';
 import { actions } from '../../../states/actions/index';
 import Storage from '../../../storage';
-
-
-
-    
-    
-
+import _ from 'lodash'
+import { dispatch as busDispatch } from 'use-bus'
 
 
 export default function SideBar() {
@@ -33,32 +29,57 @@ export default function SideBar() {
     const handleOnelementSelectedOnSearchedList = (element) => {
         setSearchedResult([])
         setSearchedError(null)
-        
-        
+
+
         // check weather this already exist in recent chat or not
         // If not exist then add view in side indicating creating chat
         // if already exist then shift that element to top in redux store in recent chat and selected position is 0
+        let elementToEquate = [Storage.Session.getUserData()._id, element._id]
+        let positionOfExistingRecentitem = -1;
+        stateData.recentChatData.recent_chats.forEach((recent_elements, index) => {
+            let innerArray = [];
+            recent_elements.users.forEach((e, i) => {
+
+                innerArray.push(e._id)
+            })
+            if (_.isEqual(innerArray, elementToEquate) || _.isEqual(innerArray, elementToEquate.reverse())) {
+                positionOfExistingRecentitem = index;
+
+            }
+        });
         dispatch(actions.MessagesActions.removeAllMessages())
-        fetchCreateChat(element)
+
+        if (positionOfExistingRecentitem == -1) {
+             fetchCreateChat(element) 
+            }
+        else {
+            dispatch(actions.RecentChatActions.setSelectedPosition(positionOfExistingRecentitem))
+            dispatch(actions.RecentChatActions.setSelectedChat( stateData.recentChatData.recent_chats[positionOfExistingRecentitem]))
+            dispatch(actions.MessagesActions.setMessages(stateData.recentChatData.recent_chats[positionOfExistingRecentitem].last_message == null ? [] : [stateData.recentChatData.recent_chats[positionOfExistingRecentitem].last_message]))
+            busDispatch('CLOSE_DRAWER')
+        }
     }
 
-    const fetchCreateChat = async (element)=>{
+    const fetchCreateChat = async (element) => {
 
+        
         try {
             setLoader(true)
-            const data = await Services.ChatService.getCreateChat(""+Storage.Session.getUserData().username+"-"+element.username,""+element._id)
+            const data = await Services.ChatService.getCreateChat("" + Storage.Session.getUserData().username + "-" + element.username, "" + element._id)
             setLoader(false)
             if (!data) {
                 dispatch(actions.ErrorDialogActions.showNoDataFromApi())
             } else {
                 if (data.data.result === 1) {
                     let objectToAddUpdateInRecentChat = {
-                        chat_id:""+data.data.response.chat_id,
-                        chatname:""+Storage.Session.getUserData().username+"-"+element.username,
-                        chaticon:""+element.image,
-                        last_message:null
+                        chat_id: "" + data.data.response._id,
+                        chatname: "" + element.username,
+                        chaticon: "" + element.image,
+                        users:data.data.response.users,
+                        last_message: null
                     }
-                    dispatch(actions.RecentChatActions.addChattoFirstPosition(objectToAddUpdateInRecentChat))                   
+                    dispatch(actions.RecentChatActions.addChattoFirstPosition(objectToAddUpdateInRecentChat))
+                    busDispatch('CLOSE_DRAWER')
                 }
                 else {
                     dispatch(actions.ErrorDialogActions.showError({ header: "Failed To Create Chat", description: "" + data.data.message }))
@@ -70,12 +91,12 @@ export default function SideBar() {
             dispatch(actions.ErrorDialogActions.showException(e.message))
         }
     }
-   
+
 
 
 
     return (
-        <Grid container direction={'column'} width={'100%'} height={'100%'}  sx={{ backgroundColor: COLORS.PRIMARY_DARK }}>
+        <Grid container direction={'column'} width={'100%'} height={'100%'} sx={{ backgroundColor: COLORS.PRIMARY_DARK }}>
             <Grid item sx={{ width: '100%' }}>
                 <TabsBar onTabSelected={(tabPosition) => { setSelectedtab(tabPosition) }} />
             </Grid>
@@ -91,7 +112,7 @@ export default function SideBar() {
 
             <Grid item flex={1} >
 
-                { loader? <CreateChatView/> : null}
+                {loader ? <CreateChatView /> : null}
 
                 {searchedResult.length > 0 || searchedError != null ?
                     <SearchedList
@@ -99,8 +120,8 @@ export default function SideBar() {
                         error={searchedError}
                         onElementSelected={(element) => { handleOnelementSelectedOnSearchedList(element) }}
                     /> :
-                    selectedTab == 0 ? <RecentChat /> : 
-                    selectedTab == 1 ? <GroupList />: <AllUserList/>
+                    selectedTab == 0 ? <RecentChat /> :
+                        selectedTab == 1 ? <GroupList /> : <AllUserList />
                 }
 
 

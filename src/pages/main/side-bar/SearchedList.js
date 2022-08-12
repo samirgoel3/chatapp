@@ -6,7 +6,7 @@ import COLORS from '../../../constants/Colors';
 
 const getItem = (element, position, onElementSelected) => {
     return (
-        <Grid item sx={{ display: 'flex', padding: '0px 7px', justifyContent: 'flex-start', alignItems: 'center', height: 60, width: '100%', backgroundColor: COLORS.PRIMARY_LIGHT }}
+        <Grid key={position} item sx={{ display: 'flex', padding: '0px 7px', justifyContent: 'flex-start', alignItems: 'center', height: 60, width: '100%', backgroundColor: COLORS.PRIMARY_LIGHT }}
             direction={'row'} onClick={()=>{ onElementSelected(element)}}>
             <Avatar sx={{ width: 30, height: 30 }}
                 src={element.image}

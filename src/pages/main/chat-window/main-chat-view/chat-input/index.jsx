@@ -49,7 +49,7 @@ export default function ChatInput({ chatData }) {
                         }
                     }
                     dispatch(actions.RecentChatActions.updateLastMessageInRecentChat(chatObj))
-                    busDispatch('FETCH_CHAT')
+                    busDispatch({type:'FETCH_CHAT', payload:{chat_id:chatData.chat_id}})
 
                 }
                 else {
