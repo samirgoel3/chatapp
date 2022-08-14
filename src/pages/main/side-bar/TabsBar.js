@@ -5,6 +5,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import COLORS from '../../../constants/Colors';
+import useBus from 'use-bus'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -39,8 +40,9 @@ function a11yProps(index) {
     };
 }
 
-export default function TabsBar({onTabSelected = ()=>{}}) {
-    const [value, setValue] = React.useState(0);
+export default function TabsBar({ position, onTabSelected = ()=>{}}) {
+    const [value, setValue] = React.useState(position);
+    useBus('SELECT-FIRST-TAB',()=>{ setValue(0)})
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

@@ -14,6 +14,8 @@ import { actions } from '../../../states/actions/index';
 import Storage from '../../../storage';
 import _ from 'lodash'
 import { dispatch as busDispatch } from 'use-bus'
+import useBus from 'use-bus'
+
 
 
 export default function SideBar() {
@@ -26,7 +28,12 @@ export default function SideBar() {
     const stateData = useSelector(state => state)
     const dispatch = useDispatch()
 
-    const handleOnelementSelectedOnSearchedList = (element) => {
+    useBus('SELECT-FIRST-TAB',(data)=>{
+         setSelectedtab(0)
+         handleOnelementSelectedOnSearchedList(data.payload.element, data.payload.recent_chats)
+        })
+
+    const handleOnelementSelectedOnSearchedList = (element, recent_chats) => {
         setSearchedResult([])
         setSearchedError(null)
 
@@ -36,12 +43,14 @@ export default function SideBar() {
         // if already exist then shift that element to top in redux store in recent chat and selected position is 0
         let elementToEquate = [Storage.Session.getUserData()._id, element._id]
         let positionOfExistingRecentitem = -1;
-        stateData.recentChatData.recent_chats.forEach((recent_elements, index) => {
+        recent_chats.forEach((recent_elements, index) => {
             let innerArray = [];
+            
             recent_elements.users.forEach((e, i) => {
-
                 innerArray.push(e._id)
             })
+
+           
             if (_.isEqual(innerArray, elementToEquate) || _.isEqual(innerArray, elementToEquate.reverse())) {
                 positionOfExistingRecentitem = index;
 
@@ -49,13 +58,15 @@ export default function SideBar() {
         });
         dispatch(actions.MessagesActions.removeAllMessages())
 
+        
+
         if (positionOfExistingRecentitem == -1) {
              fetchCreateChat(element) 
             }
         else {
             dispatch(actions.RecentChatActions.setSelectedPosition(positionOfExistingRecentitem))
-            dispatch(actions.RecentChatActions.setSelectedChat( stateData.recentChatData.recent_chats[positionOfExistingRecentitem]))
-            dispatch(actions.MessagesActions.setMessages(stateData.recentChatData.recent_chats[positionOfExistingRecentitem].last_message == null ? [] : [stateData.recentChatData.recent_chats[positionOfExistingRecentitem].last_message]))
+            dispatch(actions.RecentChatActions.setSelectedChat( recent_chats[positionOfExistingRecentitem]))
+            dispatch(actions.MessagesActions.setMessages(recent_chats[positionOfExistingRecentitem].last_message == null ? [] : [recent_chats[positionOfExistingRecentitem].last_message]))
             busDispatch('CLOSE_DRAWER')
         }
     }
@@ -98,7 +109,7 @@ export default function SideBar() {
     return (
         <Grid container direction={'column'} width={'100%'} height={'100%'} sx={{ backgroundColor: COLORS.PRIMARY_DARK }}>
             <Grid item sx={{ width: '100%' }}>
-                <TabsBar onTabSelected={(tabPosition) => { setSelectedtab(tabPosition) }} />
+                <TabsBar onTabSelected={(tabPosition) => { setSelectedtab(tabPosition) }} position={selectedTab}/>
             </Grid>
 
             <Grid item sx={{ width: '100%' }}>
@@ -118,7 +129,7 @@ export default function SideBar() {
                     <SearchedList
                         searchedData={searchedResult}
                         error={searchedError}
-                        onElementSelected={(element) => { handleOnelementSelectedOnSearchedList(element) }}
+                        onElementSelected={(element) => { handleOnelementSelectedOnSearchedList(element, stateData.recentChatData.recent_chats) }}
                     /> :
                     selectedTab == 0 ? <RecentChat /> :
                         selectedTab == 1 ? <GroupList /> : <AllUserList />
