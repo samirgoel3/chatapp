@@ -115,6 +115,7 @@ export default function SideBar() {
             <Grid item sx={{ width: '100%' }}>
                 <SearchBar
                     addGroupVisibility={selectedTab == 1}
+                    searchBarVisibiliy={selectedTab == 2}
                     onSearchedResult={(data) => { setSearchedResult(data); setSearchedError(null); }}
                     onSearchError={(err) => { setSearchedError(err) }}
                 />

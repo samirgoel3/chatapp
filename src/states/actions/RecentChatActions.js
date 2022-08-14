@@ -23,6 +23,17 @@ const addUnreadChat = (data)=>{
 }
 
 
+const setGroups = (data)=>{
+    return async ( dispatch) =>{
+        dispatch({
+            type:'set_groups',
+            payload:{
+                groups:data
+            }
+        })
+    }
+}
+
 
 const setSelectedPosition = (position)=>{
     return async ( dispatch) =>{
@@ -71,4 +82,4 @@ const updateLastMessageInRecentChat = (chatObject)=>{
 
 
 
-export default {setInitialChats, addUnreadChat, setSelectedPosition, setSelectedChat, addChattoFirstPosition, updateLastMessageInRecentChat}
+export default {setInitialChats, addUnreadChat, setSelectedPosition, setSelectedChat, addChattoFirstPosition, updateLastMessageInRecentChat, setGroups}

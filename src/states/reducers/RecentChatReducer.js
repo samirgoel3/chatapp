@@ -1,6 +1,7 @@
 const initialState = {
     recent_chats:[],
     group_chats:[],
+    groups:[],
     selected_position:-1,
     selected_chat:null
 }
@@ -11,6 +12,11 @@ const RecentChatReducer = (state = initialState, action)=>{
             ...state,
             group_chats:action.payload.group_chats,
             recent_chats:action.payload.recent_chats,
+        };
+    }if(action.type === 'set_groups'){
+        return {
+            ...state,
+            groups:action.payload.groups
         };
     }if(action.type === 'add_unread_chat'){
         let localRecentChats = state.recent_chats;

@@ -13,6 +13,10 @@ class ChatService {
         
 
     }, {headers:{"x-access-token":""+Storage.Session.getUserData().token}})
+
+
+    getChatGroups = () => Client.API_CLIENT.get("" + Endpoints.v1.CHAT_GROUPS, {headers:{"x-access-token":""+Storage.Session.getUserData().token}})
+
 }
 
 
