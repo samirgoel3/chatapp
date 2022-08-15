@@ -15,6 +15,10 @@ class ChatService {
     }, {headers:{"x-access-token":""+Storage.Session.getUserData().token}})
 
 
+
+    getCreateChatGroup = (object) => Client.API_CLIENT.post("" + Endpoints.v1.CREATE_GROUP_CHAT, object, {headers:{"x-access-token":""+Storage.Session.getUserData().token}})
+
+
     getChatGroups = () => Client.API_CLIENT.get("" + Endpoints.v1.CHAT_GROUPS, {headers:{"x-access-token":""+Storage.Session.getUserData().token}})
 
 }
