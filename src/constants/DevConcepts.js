@@ -134,6 +134,11 @@ const Concepts = [
         technology: 'React',
         icons: '',
         detail: 'Redirect not workign after deploy in '
+    },
+    {
+        technology: 'React',
+        icons: '',
+        detail: 'Indexed DB and why i used it in to the website '
     }
 ]
 

@@ -9,6 +9,8 @@ import Services from '../../network/services/'
 import { actions } from '../../states/actions'
 import './login.css'
 import Storage from '../../storage'
+import Localbase from 'localbase'
+import { Button } from '@mui/material'
 
 
 
@@ -52,6 +54,26 @@ export default function Login() {
         }
     };
 
+
+    const performDbtest = async () => {
+        let db = new Localbase('chat-db')
+
+        for (var i = 0; i < 1000; i++) {
+            await db.collection('users').add({
+                id: 4,
+                name: 'Adam',
+                age: 54,
+                content: ['one', 'two']
+            })
+            console.log('DATA Saved '+i)
+        }
+
+        await db.collection('chat').add()
+
+        //    let exactuser =  await db.collection('users').get()
+        //    alert(exactuser.length)
+
+    }
 
 
 
@@ -118,6 +140,9 @@ export default function Login() {
                             onClick={() => { validate() }} > Login</LoadingButton>
 
                     </div>
+
+                    <Button onClick={() => { performDbtest() }}>TEST DB</Button>
+
                     <div className='signup-container' >
                         Don't have account?
                         <Link className='signup-text' to={ROUTESNAMES.SIGN_UP}> Sign up</Link>

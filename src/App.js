@@ -16,6 +16,7 @@ import { Provider } from 'react-redux';
 import {store} from './states';
 import BottomErrorDialog from './components/common/BottomErrorDialog';
 import Session from './storage/Session';
+import MessageLoader from './pages/message-loader';
 
 
 const theme = createTheme({
@@ -67,6 +68,7 @@ const isLoggedin = Session.getUserData() === null? false : true;
 
 
 
+
 function App() {
   return (<Provider store={store}>
     <ThemeProvider theme={theme}>
@@ -78,10 +80,12 @@ function App() {
           <Route element={<PublicRoutes isAuthenticated={isLoggedin} />}>
             <Route path={ROUTESNAMES.ROUTESNAMES.LOGIN} element={<Login />} />
             <Route path={ROUTESNAMES.ROUTESNAMES.SIGN_UP} element={<SignUp />} />
+            
+
           </Route>
 
 
-
+         
           {/* private routes */}
           <Route element={<ProtectedRoute isAuthenticated={isLoggedin} />}>
             <Route path={'/'} element={<Main />} />
@@ -89,6 +93,9 @@ function App() {
             <Route path={ROUTESNAMES.ROUTESNAMES.ANALYTICS} element={<Analytics />} />
           </Route>
 
+         
+          <Route path={ROUTESNAMES.ROUTESNAMES.LOADING} element={<MessageLoader />} />
+          
           {/* routes which need login state but can be access withoput login */}
           <Route element={<AnywhereAccesible isAuthenticated={isLoggedin} />}>
             <Route path={ROUTESNAMES.ROUTESNAMES.DEV} element={<Dev />} />

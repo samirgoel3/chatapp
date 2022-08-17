@@ -20,6 +20,7 @@ class ChatService {
 
 
     getChatGroups = () => Client.API_CLIENT.get("" + Endpoints.v1.CHAT_GROUPS, {headers:{"x-access-token":""+Storage.Session.getUserData().token}})
+    getAllChatsWithoutMessages = () => Client.API_CLIENT.get("" + Endpoints.v1.All_CHATS_WITHOUT_MESSAGES, {headers:{"x-access-token":""+Storage.Session.getUserData().token}})
 
 }
 

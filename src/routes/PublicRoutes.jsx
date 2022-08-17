@@ -6,7 +6,7 @@ import ROUTESNAMES from '../constants/RoutesName';
 
 const PublicRoutes = ({isAuthenticated, children}) => {
     if (isAuthenticated) {
-      return <Navigate to={ROUTESNAMES.MAIN} />;
+      return <Navigate to={ROUTESNAMES.LOADING} />;
     }
   
     return children ? children : <Outlet />;
