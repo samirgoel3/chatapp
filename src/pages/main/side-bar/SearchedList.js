@@ -1,13 +1,19 @@
 import { Avatar, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import COLORS from '../../../constants/Colors';
+import { dispatch as busDispatch } from 'use-bus'
+
 
 
 
 const getItem = (element, position, onElementSelected) => {
     return (
         <Grid key={position} item sx={{ display: 'flex', padding: '0px 7px', justifyContent: 'flex-start', alignItems: 'center', height: 60, width: '100%', backgroundColor: COLORS.PRIMARY_LIGHT }}
-            direction={'row'} onClick={()=>{ onElementSelected(element)}}>
+            direction={'row'} onClick={()=>{ 
+                
+                busDispatch({type:'SELECT-ITEM-FROM-SEARCH-USER'})
+                onElementSelected(element)}}
+                >
             <Avatar sx={{ width: 30, height: 30 }}
                 src={element.image}
             />

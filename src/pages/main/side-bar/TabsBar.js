@@ -42,7 +42,9 @@ function a11yProps(index) {
 
 export default function TabsBar({ position, onTabSelected = ()=>{}}) {
     const [value, setValue] = React.useState(position);
-    useBus('SELECT-FIRST-TAB',()=>{ setValue(0)})
+    useBus('SLIDE-TAB-TO-FIRST',()=>{ 
+        setValue(0)
+    })
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

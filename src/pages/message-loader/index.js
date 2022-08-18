@@ -7,7 +7,7 @@ import ROUTESNAMES from '../../constants/RoutesName';
 import { useDispatch } from 'react-redux'
 import { actions } from '../../states/actions/index';
 import Services from '../../network/services'
-import Localbase from 'localbase'
+import IndexedDb from '../../databse';
 
 
 
@@ -19,8 +19,9 @@ export default function MessageLoader() {
     let navigate = useNavigate();
     const [loadingMessage, setLoadingMessage] = React.useState("")
     let dispatch = useDispatch()
-    let db = new Localbase('chat-db')
     let chats = [];
+    let stepPercentage = 100;
+    const [progress, setProgress] = React.useState(0)
 
     React.useEffect(() => {
         fetchAllChats();
@@ -37,9 +38,11 @@ export default function MessageLoader() {
                 if (data.data.result === 1) {
                     setLoadingMessage(data.data.response.length + ' Chats Found successfully')
                     chats = data.data.response;
+                    stepPercentage = 100 / chats.length;
                     for(var i=0 ; i < chats.length ; i++){
                         let messages = await fetchMessagesbyChatId(chats[i])
-                        saveDataIndb(chats[i], messages)
+                        IndexedDb.addChatToDb(chats[i], messages)
+                        
                         if(i == chats.length -1){
                             setLoadingMessage('Chats Loaded completely')
                             setTimeout(()=>{
@@ -50,6 +53,9 @@ export default function MessageLoader() {
                 }
                 else {
                     setLoadingMessage('No Chats Found')
+                    setTimeout(()=>{
+                        navigate("" + ROUTESNAMES.MAIN, { replace: true });
+                    }, 2000)
                 }
             }
         } catch (e) {
@@ -67,6 +73,7 @@ export default function MessageLoader() {
                 setLoadingMessage('API Causing Error while fetching messages')
                 return [];
             } else {
+                setProgress(progress => (progress + 10))
                 return data.data.response;
             }
         } catch (e) {
@@ -75,21 +82,7 @@ export default function MessageLoader() {
         }
     }
 
-    const saveDataIndb = async (chatData, messages)=>{
-        await db.collection('chats').add({
-            chat_id: chatData._id,
-            chatname: chatData.chatname,
-            isgroupchat: chatData.isgroupchat,
-            users: chatData.users,
-            groupadmin: chatData.groupadmin,
-            createdAt: chatData.createdAt,
-            identifier:"create it by sorting",
-            messages:messages
-        }, ""+chatData._id)
-    }
-
-
-
+   
 
     return (
         <Grid
@@ -104,7 +97,7 @@ export default function MessageLoader() {
                     <Avatar sx={{width:180, height:180,margin:2}} src={Session.getUserData().image}/>
                     <Typography variant='h5' color={'white'}>LOADING YOUR CHATS</Typography>
                     <Typography fontSize={12} color={'white'}>Please do not close this page until message is loading</Typography>
-                    <LinearProgress sx={{ width: 300, margin: 2 }} />
+                    <LinearProgress variant="determinate" sx={{ width: 300, margin: 2 }} value={progress}/>
                     <Typography fontSize={11} color={'white'}>{loadingMessage}</Typography>
                 </>
                 :

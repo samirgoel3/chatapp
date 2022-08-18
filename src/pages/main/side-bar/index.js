@@ -15,90 +15,85 @@ import Storage from '../../../storage';
 import _ from 'lodash'
 import { dispatch as busDispatch } from 'use-bus'
 import useBus from 'use-bus'
+import ChatUtils from '../../../utils/ChatUtils';
+import IndexedDBResolver from '../../../databse';
+import Session from '../../../storage/Session';
 
-
-
+var timeout = null;
 export default function SideBar() {
 
     const [selectedTab, setSelectedtab] = React.useState(0)
     const [searchedResult, setSearchedResult] = React.useState([])
     const [searchedError, setSearchedError] = React.useState(null)
-    const [loader, setLoader] = React.useState(false);
+    const [createChatLoader, setCreateChatLoader] = React.useState(false);
+    const [loaderElement, setLoaderElement] = React.useState(null);
 
     const stateData = useSelector(state => state)
     const dispatch = useDispatch()
 
-    useBus('SELECT-FIRST-TAB',(data)=>{
-         setSelectedtab(0)
-         handleOnelementSelectedOnSearchedList(data.payload.element, data.payload.recent_chats)
-        })
+  
 
-    const handleOnelementSelectedOnSearchedList = (element, recent_chats) => {
+    const handleOnUserSelected = async (element) => {
         setSearchedResult([])
         setSearchedError(null)
-
+        timeout = null;
 
         // check weather this already exist in recent chat or not
         // If not exist then add view in side indicating creating chat
         // if already exist then shift that element to top in redux store in recent chat and selected position is 0
-        let elementToEquate = [Storage.Session.getUserData()._id, element._id]
-        let positionOfExistingRecentitem = -1;
-        recent_chats.forEach((recent_elements, index) => {
-            let innerArray = [];
-            
-            recent_elements.users.forEach((e, i) => {
-                innerArray.push(e._id)
-            })
+        let mIdentifier = ChatUtils.CreateIndentifierFromUserIdesOnly([Storage.Session.getUserData()._id, element._id]);
 
-           
-            if (_.isEqual(innerArray, elementToEquate) || _.isEqual(innerArray, elementToEquate.reverse())) {
-                positionOfExistingRecentitem = index;
+        let storedChat = await IndexedDBResolver.getSpecificChatByIdentifier(mIdentifier)
 
-            }
-        });
-        dispatch(actions.MessagesActions.removeAllMessages())
-
-        
-
-        if (positionOfExistingRecentitem == -1) {
-             fetchCreateChat(element) 
-            }
-        else {
-            dispatch(actions.RecentChatActions.setSelectedPosition(positionOfExistingRecentitem))
-            dispatch(actions.RecentChatActions.setSelectedChat( recent_chats[positionOfExistingRecentitem]))
-            dispatch(actions.MessagesActions.setMessages(recent_chats[positionOfExistingRecentitem].last_message == null ? [] : [recent_chats[positionOfExistingRecentitem].last_message]))
-            busDispatch('CLOSE_DRAWER')
+        if (storedChat) {
+            dispatch(actions.SelectorAction.selectOneToOneChat(storedChat.chat_id))
+            setSelectedtab(0)
+            busDispatch('SLIDE-TAB-TO-FIRST')
         }
+        else { fetchCreateChat(element, mIdentifier) }
+
+
     }
 
-    const fetchCreateChat = async (element) => {
+    const fetchCreateChat = async (element, identifier) => {
 
-        
         try {
-            setLoader(true)
+            setCreateChatLoader(true)
+            setSearchedResult([])
+            setLoaderElement(element)
             const data = await Services.ChatService.getCreateChat("" + Storage.Session.getUserData().username + "-" + element.username, "" + element._id)
-            setLoader(false)
+            setCreateChatLoader(false)
+
             if (!data) {
                 dispatch(actions.ErrorDialogActions.showNoDataFromApi())
             } else {
                 if (data.data.result === 1) {
-                    let objectToAddUpdateInRecentChat = {
+                    let admins = [
+                        { _id: "" + Session.getUserData()._id, username: "" + Session.getUserData().username, image: "" + Session.getUserData().image },
+                        { _id: "" + element._id, username: "" + element.username, image: "" + element.image }
+                    ];
+                    let objectToAdd = {
                         chat_id: "" + data.data.response._id,
                         chatname: "" + element.username,
-                        chaticon: "" + element.image,
-                        users:data.data.response.users,
-                        last_message: null
+                        createdAt: "" + data.data.response.createdAt,
+                        groupadmin: admins,
+                        users: admins,
+                        identifier: identifier,
+                        isgroupchat: false,
+                        messages: [],
                     }
-                    dispatch(actions.RecentChatActions.addChattoFirstPosition(objectToAddUpdateInRecentChat))
-                    busDispatch('CLOSE_DRAWER')
+                    await IndexedDBResolver.addNewChatToTop(objectToAdd)
+                    dispatch(actions.SelectorAction.selectOneToOneChat(data.data.response._id))
+                    setSelectedtab(0)
+                    busDispatch('SLIDE-TAB-TO-FIRST')
+                    // busDispatch('CLOSE_DRAWER')
                 }
                 else {
                     dispatch(actions.ErrorDialogActions.showError({ header: "Failed To Create Chat", description: "" + data.data.message }))
-
                 }
             }
         } catch (e) {
-            setLoader(false)
+            setCreateChatLoader(false)
             dispatch(actions.ErrorDialogActions.showException(e.message))
         }
     }
@@ -109,34 +104,33 @@ export default function SideBar() {
     return (
         <Grid container direction={'column'} width={'100%'} height={'100%'} sx={{ backgroundColor: COLORS.PRIMARY_DARK }}>
             <Grid item sx={{ width: '100%' }}>
-                <TabsBar onTabSelected={(tabPosition) => { setSelectedtab(tabPosition) }} position={selectedTab}/>
+                <TabsBar onTabSelected={(tabPosition) => { setSelectedtab(tabPosition) }} position={selectedTab} />
             </Grid>
 
             <Grid item sx={{ width: '100%' }}>
-                <SearchBar
-                    addGroupVisibility={selectedTab == 1}
-                    searchBarVisibiliy={selectedTab == 2}
-                    onSearchedResult={(data) => { setSearchedResult(data); setSearchedError(null); }}
-                    onSearchError={(err) => { setSearchedError(err) }}
-                />
+                {createChatLoader ? null :
+                    <SearchBar
+                        addGroupVisibility={selectedTab == 1}
+                        searchBarVisibiliy={selectedTab == 2}
+                        onSearchedResult={(data) => { setSearchedResult(data); setSearchedError(null); }}
+                        onSearchError={(err) => { setSearchedError(err) }}
+                    />}
             </Grid>
 
 
             <Grid item flex={1} >
 
-                {loader ? <CreateChatView /> : null}
+                {createChatLoader ? <CreateChatView element={loaderElement} /> :
 
-                {searchedResult.length > 0 || searchedError != null ?
-                    <SearchedList
-                        searchedData={searchedResult}
-                        error={searchedError}
-                        onElementSelected={(element) => { handleOnelementSelectedOnSearchedList(element, stateData.recentChatData.recent_chats) }}
-                    /> :
-                    selectedTab == 0 ? <RecentChat /> :
-                        selectedTab == 1 ? <GroupList /> : <AllUserList />
+                    searchedResult.length > 0 || searchedError != null ?
+                        <SearchedList
+                            searchedData={searchedResult}
+                            error={searchedError}
+                            onElementSelected={(element) => { handleOnUserSelected(element) }}
+                        /> :
+                        selectedTab == 0 ? <RecentChat /> :
+                            selectedTab == 1 ? <GroupList /> : <AllUserList onUserSelected={(data) => { handleOnUserSelected(data)}} />
                 }
-
-
             </Grid>
         </Grid>
     )

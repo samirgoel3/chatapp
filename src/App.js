@@ -80,8 +80,6 @@ function App() {
           <Route element={<PublicRoutes isAuthenticated={isLoggedin} />}>
             <Route path={ROUTESNAMES.ROUTESNAMES.LOGIN} element={<Login />} />
             <Route path={ROUTESNAMES.ROUTESNAMES.SIGN_UP} element={<SignUp />} />
-            
-
           </Route>
 
 

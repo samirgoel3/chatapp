@@ -2,6 +2,7 @@ import { Avatar, Grid, Typography, Popover, Button } from '@mui/material'
 import React from 'react'
 import COLORS from '../../constants/Colors'
 import Session from '../../storage/Session';
+import IndexedDB from '../../databse';
 
 export default function UserInfo() {
 
@@ -46,7 +47,7 @@ export default function UserInfo() {
 
                                     <Grid item>
                                         <div style={{ padding: 10 }}>
-                                            <Avatar sx={{ width: 90, height: 90 }} src={Session.getUserData().image}/>
+                                            <Avatar sx={{ width: 90, height: 90 }} src={Session.getUserData().image} />
                                         </div>
                                     </Grid>
 
@@ -54,14 +55,18 @@ export default function UserInfo() {
                                         <Grid container direction={'column'} alignItems={'flex-start'} >
                                             <Typography variant='h6' sx={{ textTransform: 'uppercase', color: '#333333', fontWeight: 700 }}>{Session.getUserData().username}</Typography>
                                             <Typography variant='subtitle2' color={'#333'}>{Session.getUserData().email}</Typography>
-                                            <Typography sx={{color:'#bbb', fontSize:10}}>User ID: {Session.getUserData()._id}</Typography>
+                                            <Typography sx={{ color: '#bbb', fontSize: 10 }}>User ID: {Session.getUserData()._id}</Typography>
                                         </Grid>
                                     </Grid>
 
                                 </Grid>
                             </Grid>
-                            <Grid item sx={{width:'100%'}}>
-                            <Button variant='contained' sx={{width:'100%'}} onClick={()=>{localStorage.clear(); window.location.reload(false);}}>LOGOUT</Button>
+                            <Grid item sx={{ width: '100%' }}>
+                                <Button variant='contained' sx={{ width: '100%' }} onClick={() => {
+                                    IndexedDB.clearDB();
+                                    localStorage.clear();
+                                    window.location.reload(false);
+                                }}>LOGOUT</Button>
                             </Grid>
                         </Grid>
                     </div>

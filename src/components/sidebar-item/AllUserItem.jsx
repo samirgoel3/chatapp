@@ -7,26 +7,21 @@ import { actions } from '../../states/actions';
 import DateAndTimeUtil from '../../utils/DateAndTimeUtil';
 import Storage from '../../storage';
 import _ from 'lodash'
-import { dispatch as busDispatch } from 'use-bus'
 
 
 
 
 
 
-export default function AllUserItem({element, position}){
+export default function AllUserItem({element, position, onUserSelected = ()=>{}}){
     
     const stateData = useSelector(state => state)
     const dispatch = useDispatch()
 
-    const handleOnUserClick = (ele)=>{
-        busDispatch({type:'SELECT-FIRST-TAB', payload:{element:ele, recent_chats:stateData.recentChatData.recent_chats} }) 
-    }
-
     return (
         <Grid item sx={{ display: 'flex', padding:1, justifyContent: 'flex-start', alignItems: 'center', width: '100%', backgroundColor: position== stateData.recentChatData.selected_position?COLORS.PRIMARY_DARK:COLORS.PRIMARY_LIGHT }}
         direction={'row'} 
-        onClick={()=>{handleOnUserClick(element)}}>
+        onClick={()=>{onUserSelected(element)}}>
         <Avatar sx={{ width: 60, height: 60 }}  src={element.image}/>
         <Grid container direction={'column'} sx={{ marginLeft: 1 }} >
             <Typography sx={{ color: 'white', fontWeight: 700, fontSize: 15 }}>{element.username}</Typography>

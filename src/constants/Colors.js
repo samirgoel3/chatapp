@@ -17,6 +17,7 @@ const COLORS = {
     TEAL_A200:'#64FFDA',
     TEAL_A400:'#1DE9B6',
     TEAL_A700:'#00BFA5',
+    DARK_BLUE:'#1A282B',
 
 }
 

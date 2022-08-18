@@ -139,6 +139,11 @@ const Concepts = [
         technology: 'React',
         icons: '',
         detail: 'Indexed DB and why i used it in to the website '
+    },
+    {
+        technology: 'React',
+        icons: '',
+        detail: 'Singleton instance used for creating indexedx DB object '
     }
 ]
 
