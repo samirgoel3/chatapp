@@ -1,13 +1,16 @@
-import { Avatar, Grid, Typography } from '@mui/material'
-import React from 'react'
-import MobileRightSideDrawer from '../chat-box/MobileRightSideDrawer';
+import { Avatar, Grid, Typography } from '@mui/material';
+import React from 'react';
 import COLORS from '../../../../../constants/Colors';
 import ICONS from '../../../../../constants/Icons';
+import ChatUtils from '../../../../../utils/ChatUtils';
 
 
 
 
 export default function ChatBar({chatData}) {
+
+    
+
     return (
         <Grid
             container
@@ -15,11 +18,10 @@ export default function ChatBar({chatData}) {
             flexDirection={'row'}
             justifyContent={'flex-start'}
             alignItems={'center'}>
-            <Avatar style={{ width: 35, height: 35 }} src={chatData.chaticon} />
+            <Avatar style={{ width: 35, height: 35 }} src={ChatUtils.getOtherUserimage(chatData.groupadmin)} />
             <Grid container flexDirection={'column'} flex={1} sx={{ paddingInline: 2 }}>
                 <Typography sx={{ color: 'white', fontSize: 15, fontWeight: 700 }}>{chatData.chatname}</Typography>
-                {/* <Typography sx={{ color: 'white', fontSize: 15, fontWeight: 700 }}>{chatData.chatname + ' CHAT ID: '+ chatData.chat_id}</Typography> */}
-                <Typography sx={{ color: 'white', fontSize: 10, fontWeight: 400 }}>Last seen 04:34 PM</Typography>
+                <Typography sx={{ color: 'white', fontSize: 10, fontWeight: 400 }}>{chatData.chat_id}</Typography>
             </Grid>
             <ICONS.OPEN_EYE_ICON style={{ width: 20, height: 20, color: 'white' }} />
         </Grid>

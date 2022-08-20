@@ -59,7 +59,7 @@ export default function AllUserList({onUserSelected = ()=>{}}) {
   }
 
   return (
-    <Grid container sx={{ height: '100%' }} direction={'column'}>
+    <Grid container sx={{ height: '100%', minWidth:280 }} direction={'column'}>
 
       <div style={{
         height: windowSize.innerWidth < 900 ? (windowSize.innerHeight - 106) : (windowSize.innerHeight - 150),

@@ -7,9 +7,18 @@ const setRecentChat = (data)=>{
     }
 }
 
+const setGroupChat = (data)=>{
+    return async ( dispatch) =>{
+        dispatch({
+            type:'set_group_chat',
+            payload:data
+        })
+    }
+}
 
 
 
 
 
-export default {setRecentChat}
+
+export default {setRecentChat, setGroupChat}

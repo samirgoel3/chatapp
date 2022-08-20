@@ -11,7 +11,7 @@ import { dispatch as busDispatch } from 'use-bus'
 
 
 
-export default function ChatInput({ chatData }) {
+export default function ChatInput({ chatId }) {
 
     const [input, setInput] = React.useState("")
     const dispatch = useDispatch()
@@ -30,30 +30,29 @@ export default function ChatInput({ chatData }) {
     const fetchMessageSend = async (message) => {
         try {
             setLoader(true)
-            const data = await Services.MessageService.getSendMessage(chatData.chat_id, message)
+            const data = await Services.MessageService.getSendMessage(chatId, message)
             setLoader(false)
             if (!data) {
                 dispatch(actions.ErrorDialogActions.showNoDataFromApi())
             } else {
                 if (data.data.result === 1) {
+                    alert('Message send successfully')
+                    // alert(JSON.stringify(data.data))
+                    // let chatObj = {
+                    //     chat_id: chatId,
+                    //     last_message: {
+                    //         _id: data.data.response._id,
+                    //         content: data.data.response.content,
+                    //         sender: data.data.response.sender,
+                    //         createdAt: data.data.response.createdAt,
+                    //         readby: data.data.response.readby
 
-                    let chatObj = {
-                        chat_id: chatData.chat_id,
-                        last_message: {
-                            _id: data.data.response._id,
-                            content: data.data.response.content,
-                            sender: data.data.response.sender,
-                            createdAt: data.data.response.createdAt,
-                            readby: data.data.response.readby
-
-                        }
-                    }
-                    dispatch(actions.RecentChatActions.updateLastMessageInRecentChat(chatObj))
-                    busDispatch({type:'FETCH_CHAT', payload:{chat_id:chatData.chat_id}})
-
+                    //     }
+                    // }
+                    // dispatch(actions.RecentChatActions.updateLastMessageInRecentChat(chatObj))
                 }
                 else {
-                    dispatch(actions.ErrorDialogActions.showError({ header: "Failed To login", description: "" + data.data.message }))
+                    dispatch(actions.ErrorDialogActions.showError({ header: "Failed To Send Message", description: "" + data.data.message }))
 
                 }
             }

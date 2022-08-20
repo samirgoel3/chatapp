@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import COLORS from '../../../constants/Colors';
 import useBus from 'use-bus'
+import { useDispatch, useSelector } from 'react-redux';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -40,14 +41,14 @@ function a11yProps(index) {
     };
 }
 
-export default function TabsBar({ position, onTabSelected = ()=>{}}) {
-    const [value, setValue] = React.useState(position);
-    useBus('SLIDE-TAB-TO-FIRST',()=>{ 
-        setValue(0)
-    })
+export default function TabsBar({  onTabSelected = ()=>{}}) {
+    const stateData = useSelector(state => state)
+
+    // useBus('SLIDE-TAB-TO-FIRST',()=>{ 
+    //     setValue(0)
+    // })
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
         onTabSelected(newValue)
     };
 
@@ -55,7 +56,7 @@ export default function TabsBar({ position, onTabSelected = ()=>{}}) {
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: COLORS.PRIMARY_DARK }}>
                 <Tabs
-                    value={value}
+                    value={stateData.selectorData.selected_tab}
                     onChange={handleChange}
                     aria-label="basic tabs example"
                     textColor="secondary"

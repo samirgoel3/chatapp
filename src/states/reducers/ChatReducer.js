@@ -10,6 +10,11 @@ const ChatReducer = (state = initialState, action)=>{
             ...state,
             recent_chat:action.payload,
         };
+    }if(action.type === 'set_group_chat'){
+        return {
+            ...state,
+            group_chat:action.payload,
+        };
     }else{
         return state;
     }

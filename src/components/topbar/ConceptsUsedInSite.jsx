@@ -86,7 +86,7 @@ export default function ConceptsUsedInSite() {
       >
         {Concepts.map((e, i) => {
           return (
-            <MenuItem onClick={handleClose} disableRipple>
+            <MenuItem onClick={handleClose} disableRipple key={i}>
               <FileCopyIcon />
               {e.detail}
             </MenuItem>

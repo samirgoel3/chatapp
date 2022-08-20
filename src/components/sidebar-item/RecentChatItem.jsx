@@ -36,7 +36,6 @@ export default function RecentChatItem({ element, position }) {
             direction={'row'} onClick={() => {
                 if (element.chat_id != stateData.selectorData.selected_one_to_one_chat) {
                     dispatch(actions.SelectorAction.selectOneToOneChat(element.chat_id))
-                    busDispatch('REFRESH_RECENT_CHATS')
                     busDispatch('CLOSE_DRAWER')
                 }
             }}>

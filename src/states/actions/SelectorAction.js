@@ -8,8 +8,28 @@ const selectOneToOneChat = (chatId)=>{
 }
 
 
+const selectGroupChat = (chatId)=>{
+    return async ( dispatch) =>{
+        dispatch({
+            type:'select_group_chat',
+            payload:chatId
+        })
+    }
+}
+
+
+const selectTab = (chatId)=>{
+    return async ( dispatch) =>{
+        dispatch({
+            type:'select_tab',
+            payload:chatId
+        })
+    }
+}
 
 
 
 
-export default {selectOneToOneChat}
+
+
+export default {selectOneToOneChat, selectGroupChat, selectTab}

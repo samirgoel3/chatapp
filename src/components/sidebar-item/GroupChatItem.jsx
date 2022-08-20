@@ -3,36 +3,24 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import COLORS from '../../constants/Colors';
 import DateAndTimeUtil from '../../utils/DateAndTimeUtil';
+import { actions } from '../../states/actions';
+import { dispatch as busDispatch } from 'use-bus'
 
 
 
-
-export default function GroupChatItem({ element, position }) {
+export default function GroupChatItem({ element }) {
 
     const stateData = useSelector(state => state)
     const dispatch = useDispatch()
 
 
     return (
-        <Grid item sx={{ display: 'flex', padding: '0px 7px', justifyContent: 'flex-start', alignItems: 'center', height: 90, width: '100%', backgroundColor: position == stateData.recentChatData.selected_position ? COLORS.TEAL_A700 : COLORS.PRIMARY_LIGHT }}
+        <Grid item sx={{ display: 'flex', padding: '0px 7px', justifyContent: 'flex-start', alignItems: 'center', height: 90, width: '100%', backgroundColor: element.chat_id != stateData.selectorData.selected_group_chat ? COLORS.PRIMARY_LIGHT :COLORS.TEAL_A700 }}
             direction={'row'} >
             {/* <Avatar sx={{ width: 40, height: 40 }} src={""} /> */}
             <Grid container direction={'column'} sx={{ marginLeft: 1 }} onClick={() => {
-                // if (position != stateData.recentChatData.selected_position) {
-                //     dispatch(actions.RecentChatActions.setSelectedPosition(position))
-                //     dispatch(actions.RecentChatActions.setSelectedChat(
-                //         {
-                //             chat_id:""+element._id,
-                //             chatname:""+element.chatname,
-                //             chaticon:"",
-                //             last_message:null,
-                //             users:element.users,
-
-                //         }
-                //     ))
-                //     dispatch(actions.MessagesActions.setMessages([]))
-                //     busDispatch('CLOSE_DRAWER')
-                // }
+                dispatch(actions.SelectorAction.selectGroupChat(element.chat_id))
+                busDispatch('CLOSE_DRAWER')
             }}>
                 <Typography sx={{ color: 'white', fontWeight: 700, fontSize: 15, marginBottom: 1 }}>{element.chatname}</Typography>
                 <Grid container justifyContent={'center'} alignItems={'center'} direction={'row'}>

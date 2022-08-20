@@ -4,6 +4,7 @@ import SideBar from './side-bar'
 import ChatWindow from './chat-window'
 import { io } from "socket.io-client";
 import { useEffect } from 'react';
+import useBus from 'use-bus';
 
 
 
@@ -15,24 +16,37 @@ function getWindowSize() {
 export default function Main() {
     const [windowSize, setWindowSize] = React.useState(getWindowSize())
 
+    var socket;
+
+    const makeSocketConnection = () => {
+         socket = io('http://192.168.0.109:5000')
+        // const socket = io()
+        console.log('Making socket connection with server')
+        socket.on("connection", (socket) => {
+            console.log("Making socket connection --------->" + socket.id);
+        });
+        socket.on("connect_error", (err) => {
+            // console.log(`connect_error due to ${err.message}`);
+        });
+        return socket ;
+    }
+
+    useBus("TEST", ()=>{
+        socket.emit('TESTER', "hey i am emitting some data , have you hgot it")
+    })
 
 
-    // useEffect(() => {
-    //     // const socket = io()
-    //     // console.log('Making socket connection with server')
-    //     // socket.on("connection", (socket) => {
-    //     //     console.log("Making socket connection --------->" + socket.id);
-    //     // });
-    //     // socket.on("connect_error", (err) => {
-    //     //     console.log(`connect_error due to ${err.message}`);
-    //     //   });
 
-    // }, [])
+
+
+
+
 
     useEffect(() => {
         function handleWindowResize() {
             setWindowSize(getWindowSize());
         }
+        makeSocketConnection()
 
         window.addEventListener('resize', handleWindowResize);
 

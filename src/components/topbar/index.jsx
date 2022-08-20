@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import React from 'react';
 import MobileRightSideDrawer from '../../pages/main/chat-window/main-chat-view/chat-box/MobileRightSideDrawer';
 import AppLogo from './AppLogo';
@@ -7,6 +7,8 @@ import MobileSideDrawerLeft from './MobileLeftSideDrawer';
 import MyInfo from './MyInfo';
 import './topbar.css';
 import UserInfo from './UserInfo';
+import { dispatch as busDispatch } from 'use-bus'
+
 
 const TopBar = ({ children }) => {
 
@@ -26,10 +28,13 @@ const TopBar = ({ children }) => {
         <Grid item display={{ xl: 'block', lg: 'block', md: 'block', sm: 'none', xs: 'none' }}> <ConceptsUsedInSite /></Grid>
 
         <div style={{ display: 'flex', flex: 1 }} />
-       
+
+        <Button onClick={()=>{  busDispatch("TEST") }}
+          variant={'contained'} >Test</Button>
+
         <div style={{ paddingRight: 12 }}> <UserInfo /> </div>
         <Grid display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' }} sx={{ marginInline: 1 }}>
-          <MobileRightSideDrawer />
+          {window.innerHeight < 900 ? <MobileRightSideDrawer /> : null}
         </Grid>
 
       </Grid>

@@ -22,7 +22,6 @@ import Session from '../../../storage/Session';
 var timeout = null;
 export default function SideBar() {
 
-    const [selectedTab, setSelectedtab] = React.useState(0)
     const [searchedResult, setSearchedResult] = React.useState([])
     const [searchedError, setSearchedError] = React.useState(null)
     const [createChatLoader, setCreateChatLoader] = React.useState(false);
@@ -47,7 +46,7 @@ export default function SideBar() {
 
         if (storedChat) {
             dispatch(actions.SelectorAction.selectOneToOneChat(storedChat.chat_id))
-            setSelectedtab(0)
+            dispatch(actions.SelectorAction.selectTab(0))
             busDispatch('SLIDE-TAB-TO-FIRST')
         }
         else { fetchCreateChat(element, mIdentifier) }
@@ -84,7 +83,7 @@ export default function SideBar() {
                     }
                     await IndexedDBResolver.addNewChatToTop(objectToAdd)
                     dispatch(actions.SelectorAction.selectOneToOneChat(data.data.response._id))
-                    setSelectedtab(0)
+                    dispatch(actions.SelectorAction.selectTab(0))
                     busDispatch('SLIDE-TAB-TO-FIRST')
                     // busDispatch('CLOSE_DRAWER')
                 }
@@ -104,14 +103,16 @@ export default function SideBar() {
     return (
         <Grid container direction={'column'} width={'100%'} height={'100%'} sx={{ backgroundColor: COLORS.PRIMARY_DARK }}>
             <Grid item sx={{ width: '100%' }}>
-                <TabsBar onTabSelected={(tabPosition) => { setSelectedtab(tabPosition) }} position={selectedTab} />
+                <TabsBar onTabSelected={(tabPosition) => {
+                     dispatch(actions.SelectorAction.selectTab(tabPosition))
+                     }}  />
             </Grid>
 
             <Grid item sx={{ width: '100%' }}>
                 {createChatLoader ? null :
                     <SearchBar
-                        addGroupVisibility={selectedTab == 1}
-                        searchBarVisibiliy={selectedTab == 2}
+                        addGroupVisibility={stateData.selectorData.selected_tab == 1}
+                        searchBarVisibiliy={stateData.selectorData.selected_tab == 2}
                         onSearchedResult={(data) => { setSearchedResult(data); setSearchedError(null); }}
                         onSearchError={(err) => { setSearchedError(err) }}
                     />}
@@ -128,8 +129,8 @@ export default function SideBar() {
                             error={searchedError}
                             onElementSelected={(element) => { handleOnUserSelected(element) }}
                         /> :
-                        selectedTab == 0 ? <RecentChat /> :
-                            selectedTab == 1 ? <GroupList /> : <AllUserList onUserSelected={(data) => { handleOnUserSelected(data)}} />
+                        stateData.selectorData.selected_tab == 0 ? <RecentChat /> :
+                        stateData.selectorData.selected_tab == 1 ? <GroupList /> : <AllUserList onUserSelected={(data) => { handleOnUserSelected(data)}} />
                 }
             </Grid>
         </Grid>

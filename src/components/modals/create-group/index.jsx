@@ -8,6 +8,9 @@ import ChatGroupSearch from './ChatGroupSearch'
 import { actions } from '../../../states/actions/index';
 import Services from '../../../network/services'
 import { useDispatch } from 'react-redux'
+import ChatUtils from '../../../utils/ChatUtils'
+import IndexDbResolver from '../../../databse';
+import { dispatch as busDispatch} from 'use-bus'
 
 
 
@@ -56,7 +59,22 @@ export default function CreateEditGroupModal({ open, onClose = () => { }, onClos
                 dispatch(actions.ErrorDialogActions.showNoDataFromApi())
             } else {
                 if (data.data.result === 1) {
-                    alert(JSON.stringify(data.data))
+                    let objectToAdd = {
+                        chat_id: "" + data.data.response._id,
+                        chatname: "" + data.data.response.chatname,
+                        createdAt: "" + data.data.response.createdAt,
+                        groupadmin: data.data.response.groupadmin,
+                        users: data.data.response.users,
+                        identifier: ChatUtils.CreateIdentifier(data.data.response.users),
+                        isgroupchat: true,
+                        messages: [],
+                    }
+
+                    await IndexDbResolver.addNewChatToTop(objectToAdd)
+                    dispatch(actions.SelectorAction.selectGroupChat(data.data.response._id))
+                    busDispatch('REFRESH-GROUP-LIST')
+                    onClose()
+
                 }
                 else {
                     dispatch(actions.ErrorDialogActions.showError({ header: "Failed To login", description: "" + data.data.message }))

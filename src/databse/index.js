@@ -44,6 +44,10 @@ class IndexdbResolver {
         return val;
     }
 
+    getSpecificChatByChatId = async (chatId)=>{
+        return await this.db.collection('chats').doc(chatId).get();
+    }
+
    
 
 }
