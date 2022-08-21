@@ -5,6 +5,12 @@ import ChatWindow from './chat-window'
 import { io } from "socket.io-client";
 import { useEffect } from 'react';
 import useBus from 'use-bus';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { actions } from '../../states/actions';
+import Session from '../../storage/Session';
+import Socket from '../../socket';
+
 
 
 
@@ -15,20 +21,12 @@ function getWindowSize() {
 
 export default function Main() {
     const [windowSize, setWindowSize] = React.useState(getWindowSize())
+    const dispatch = useDispatch()
 
     var socket;
 
     const makeSocketConnection = () => {
-         socket = io('http://192.168.0.109:5000')
-        // const socket = io()
-        console.log('Making socket connection with server')
-        socket.on("connection", (socket) => {
-            console.log("Making socket connection --------->" + socket.id);
-        });
-        socket.on("connect_error", (err) => {
-            // console.log(`connect_error due to ${err.message}`);
-        });
-        return socket ;
+        Socket.initSocket(dispatch)   
     }
 
     useBus("TEST", ()=>{

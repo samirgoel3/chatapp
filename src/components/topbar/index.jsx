@@ -8,10 +8,17 @@ import MyInfo from './MyInfo';
 import './topbar.css';
 import UserInfo from './UserInfo';
 import { dispatch as busDispatch } from 'use-bus'
+import ICONS from '../../constants/Icons';
+import { useSelector } from 'react-redux';
 
 
 const TopBar = ({ children }) => {
 
+  const stateData = useSelector(state => state)
+
+  const getConnectionColor = ()=>{
+    return stateData.connectiondata.socket_connection ? "green":"red";
+  }
 
 
   return (
@@ -29,8 +36,7 @@ const TopBar = ({ children }) => {
 
         <div style={{ display: 'flex', flex: 1 }} />
 
-        <Button onClick={()=>{  busDispatch("TEST") }}
-          variant={'contained'} >Test</Button>
+         <ICONS.SOCKETIO size={20} color={getConnectionColor()} style={{margin:'0px 10px', backgroundColor:'white', borderRadius:'50%', padding:1}} /> 
 
         <div style={{ paddingRight: 12 }}> <UserInfo /> </div>
         <Grid display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none', xl: 'none' }} sx={{ marginInline: 1 }}>

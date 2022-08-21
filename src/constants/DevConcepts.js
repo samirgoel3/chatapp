@@ -144,6 +144,11 @@ const Concepts = [
         technology: 'React',
         icons: '',
         detail: 'Singleton instance used for creating indexedx DB object '
+    },,
+    {
+        technology: 'React and Node',
+        icons: '',
+        detail: 'Auto Logout feature when one user is logged in another device'
     }
 ]
 

@@ -4,7 +4,7 @@ import Storage from '../../storage';
 
 const apiClient = () => {
     const REACT_APP_API_URL = "http://192.168.0.109:5000/api/v1/";
-    // const REACT_APP_AP   I_URL = "http://44.206.245.7:5000/api/v1/";
+    // const REACT_APP_API_URL = "http://44.206.245.7:5000/api/v1/";
 
     // const getHeader = () => {
     //     if (Storage.Session.getUserData === null) {
