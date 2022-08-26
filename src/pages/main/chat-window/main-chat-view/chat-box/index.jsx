@@ -1,22 +1,27 @@
-import { Button, Grid, Stack, CircularProgress, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import { Grid, Stack, Typography } from '@mui/material'
+import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useBus from 'use-bus'
-import Services from '../../../../../network/services'
+import ChatBackground from '../../../../../images/chat-background.png'
 import { actions } from '../../../../../states/actions'
-import Storage from '../../../../../storage'
-import LeftChatBox from './LeftMessage'
-import RightChatBox from './RightMessage'
-import ChatBackground from '../../../../../images/chat-background.png';
+import Session from '../../../../../storage/Session'
+import LeftChatBox from './LeftMessage';
+import RightChatBox from './RightMessage';
+import { store } from '../../../../../states/index';
 
 
 
-export default function ChatBox({ chatData }) {
 
-    const bottomRef = React.useRef(null);
-    const [loader, setLoader] = React.useState(false)
+
+
+export default function ChatBox({chatId}) {
+
     const stateData = useSelector(state => state)
+    const bottomRef = React.useRef(null);
     const dispatch = useDispatch()
+
+
+
 
 
 
@@ -24,29 +29,33 @@ export default function ChatBox({ chatData }) {
     //     bottomRef.current.scrollIntoView({ behavior: 'smooth' })
     // }, [message]);
 
+    // useEffect(() => { setMessages(chatData.messages) }, [chatData.chat_id])
 
-    // sx={{backgroundImage:`url(${ChatBackground})`, backgroundSize:'cover'}}
+    useBus('MESSAGE-RECEIVED', (data) => {
+        if(data.data.chat_id == store.getState().selectorData.last_selection){
+            dispatch(actions.MessagesActions.addMessage(data.data.messageData))
+            setTimeout(()=>{
+                bottomRef.current.scrollIntoView({ behavior: 'smooth' })
+            }, 250)
+        }
+    })
+
+
 
     return (
         <div style={{ position: 'relative' }}>
-            <Grid container alignItems={'flex-end'} sx={{ overflowY: 'scroll', height: '80vh', position: 'relative', backgroundImage:`url(${ChatBackground})`, backgroundSize:'cover' }} >
+            <Grid container alignItems={'flex-end'} sx={{ overflowY: 'scroll', height: '80vh', position: 'relative', backgroundImage: `url(${ChatBackground})`, backgroundSize: 'cover' }} >
+                <div>
 
-                <Stack style={{ width: '100%' }}>
                     {
-                        chatData.messages ?
-                            chatData.messages.map((e, i) =>
-                               {
-                                return e.sender._id == Storage.Session.getUserData()._id ?
-                                <RightChatBox data={e} /> : <LeftChatBox data={e} chat_id={chatData.chat_id}/>
-                               }
-                            )
-                            :
-                            null
-
+                        stateData.messagesData.messages.map((e, i) =>
+                            e.sender._id == Session.getUserData()._id ?
+                                <RightChatBox data={e} /> : <LeftChatBox data={e} />
+                        )
                     }
                     <div ref={bottomRef} />
 
-                </Stack>
+                </div>
             </Grid>
 
         </div>

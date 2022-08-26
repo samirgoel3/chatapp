@@ -1,15 +1,9 @@
-import React, { Component } from 'react'
-import { Grid } from '@mui/material'
-import SideBar from './side-bar'
-import ChatWindow from './chat-window'
-import { io } from "socket.io-client";
-import { useEffect } from 'react';
-import useBus from 'use-bus';
-import { useSelector } from 'react-redux';
+import { Grid } from '@mui/material';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { actions } from '../../states/actions';
-import Session from '../../storage/Session';
 import Socket from '../../socket';
+import ChatWindow from './chat-window';
+import SideBar from './side-bar';
 
 
 
@@ -23,15 +17,12 @@ export default function Main() {
     const [windowSize, setWindowSize] = React.useState(getWindowSize())
     const dispatch = useDispatch()
 
-    var socket;
 
     const makeSocketConnection = () => {
         Socket.initSocket(dispatch)   
     }
 
-    useBus("TEST", ()=>{
-        socket.emit('TESTER', "hey i am emitting some data , have you hgot it")
-    })
+
 
 
 

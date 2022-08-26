@@ -1,6 +1,7 @@
 const initialState = {
     recent_chat:[],
-    group_chat:[]
+    group_chat:[],
+    messages:[]
 
 }
 
@@ -14,6 +15,11 @@ const ChatReducer = (state = initialState, action)=>{
         return {
             ...state,
             group_chat:action.payload,
+        };
+    }if(action.type === 'set_messages'){
+        return {
+            ...state,
+            messages:action.payload,
         };
     }else{
         return state;

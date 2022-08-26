@@ -13,9 +13,18 @@ const MessagesReducer = (state = initialState, action)=>{
             ...state,
             messages:[]
         };
+    }if(action.type === 'add_message'){
+        
+        return {
+            ...state,
+            messages:[...state.messages, action.payload]
+        };
     }else{
         return state;
     }
 }
+
+
+
 
 export default MessagesReducer;

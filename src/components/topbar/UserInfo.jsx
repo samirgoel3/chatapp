@@ -63,9 +63,7 @@ export default function UserInfo() {
                             </Grid>
                             <Grid item sx={{ width: '100%' }}>
                                 <Button variant='contained' sx={{ width: '100%' }} onClick={() => {
-                                    IndexedDB.clearDB();
-                                    localStorage.clear();
-                                    window.location.reload(false);
+                                    Session.logout()
                                 }}>LOGOUT</Button>
                             </Grid>
                         </Grid>

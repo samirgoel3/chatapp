@@ -144,11 +144,16 @@ const Concepts = [
         technology: 'React',
         icons: '',
         detail: 'Singleton instance used for creating indexedx DB object '
-    },,
+    },
     {
         technology: 'React and Node',
         icons: '',
-        detail: 'Auto Logout feature when one user is logged in another device'
+        detail: 'Auto Logout feature when one user is logged in another device event when user is out of network'
+    },
+    {
+        technology: 'Application feature',
+        icons: '',
+        detail: 'Read receipt of message in one-to-one or in Group chats'
     }
 ]
 

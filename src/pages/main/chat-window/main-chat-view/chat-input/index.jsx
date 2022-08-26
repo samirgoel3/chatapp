@@ -1,20 +1,19 @@
-import React, { Component } from 'react'
-import { Grid, TextField, CircularProgress } from '@mui/material';
-import ICONS from '../../../../../constants/Icons';
+import { CircularProgress, Grid, TextField } from '@mui/material';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import COLORS from '../../../../../constants/Colors';
-import Services from '../../../../../network/services';
-import { actions } from '../../../../../states/actions/index';
-import { useDispatch } from 'react-redux'
-import { dispatch as busDispatch } from 'use-bus'
+import ICONS from '../../../../../constants/Icons';
+import Session from '../../../../../storage/Session';
 
 
 
 
 
-export default function ChatInput({ chatId }) {
 
+export default function ChatInput({ chatId, users }) {
+
+    const stateData = useSelector(state => state)
     const [input, setInput] = React.useState("")
-    const dispatch = useDispatch()
     const [loader, setLoader] = React.useState(false)
 
 
@@ -27,39 +26,49 @@ export default function ChatInput({ chatId }) {
         }
     }
 
+
     const fetchMessageSend = async (message) => {
-        try {
+        // try {
+        if (stateData.connectiondata.socket_connection) {
             setLoader(true)
-            const data = await Services.MessageService.getSendMessage(chatId, message)
-            setLoader(false)
-            if (!data) {
-                dispatch(actions.ErrorDialogActions.showNoDataFromApi())
-            } else {
-                if (data.data.result === 1) {
-                    alert('Message send successfully')
-                    // alert(JSON.stringify(data.data))
-                    // let chatObj = {
-                    //     chat_id: chatId,
-                    //     last_message: {
-                    //         _id: data.data.response._id,
-                    //         content: data.data.response.content,
-                    //         sender: data.data.response.sender,
-                    //         createdAt: data.data.response.createdAt,
-                    //         readby: data.data.response.readby
-
-                    //     }
-                    // }
-                    // dispatch(actions.RecentChatActions.updateLastMessageInRecentChat(chatObj))
-                }
-                else {
-                    dispatch(actions.ErrorDialogActions.showError({ header: "Failed To Send Message", description: "" + data.data.message }))
-
-                }
-            }
-        } catch (e) {
-            setLoader(false)
-            dispatch(actions.ErrorDialogActions.showException(e.message))
+            global.socket.emit("CHAT", {
+                chat_id: "" + chatId,
+                message: "" + message,
+                users: users,
+                sender:""+Session.getUserData()._id
+            }, () => {
+                setLoader(false)
+            });
         }
+        else {
+            alert("Socket is not connected")
+        }
+        //  else {
+        //         if (data.data.result === 1) {
+        //             alert('Message send successfully')
+        //             // alert(JSON.stringify(data.data))
+        //             // let chatObj = {
+        //             //     chat_id: chatId,
+        //             //     last_message: {
+        //             //         _id: data.data.response._id,
+        //             //         content: data.data.response.content,
+        //             //         sender: data.data.response.sender,
+        //             //         createdAt: data.data.response.createdAt,
+        //             //         readby: data.data.response.readby
+
+        //             //     }
+        //             // }
+        //             // dispatch(actions.RecentChatActions.updateLastMessageInRecentChat(chatObj))
+        //         }
+        //         else {
+        //             dispatch(actions.ErrorDialogActions.showError({ header: "Failed To Send Message", description: "" + data.data.message }))
+
+        //         }
+        //     }
+        // } catch (e) {
+        //     setLoader(false)
+        //     dispatch(actions.ErrorDialogActions.showException(e.message))
+        // }
     }
 
 
@@ -83,7 +92,7 @@ export default function ChatInput({ chatId }) {
             <div style={{ backgroundColor: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 7 }}>
 
                 {loader ?
-                    <CircularProgress size={25}/> :
+                    <CircularProgress size={25} /> :
                     <ICONS.SEND_MESSAGE style={{ width: 25, height: 25, color: COLORS.PRIMARY }} onClick={() => {
                         onMessageHandle()
                     }} />}

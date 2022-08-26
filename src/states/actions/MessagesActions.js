@@ -18,6 +18,13 @@ const removeAllMessages = ()=>{
 }
 
 
+const addMessage = (data)=>{
+    return async ( dispatch) =>{
+        dispatch({
+            type:'add_message',
+            payload:data
+        })
+    }
+}
 
-
-export default {setMessages, removeAllMessages}
+export default {setMessages, removeAllMessages, addMessage}

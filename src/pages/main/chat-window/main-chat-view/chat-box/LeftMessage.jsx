@@ -1,20 +1,16 @@
-import { Avatar, Typography, Popover, Grid, IconButton } from '@mui/material'
-import React, { useEffect } from 'react'
-import COLORS from '../../../../../constants/Colors'
+import { Avatar, Grid, IconButton, Popover, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import COLORS from '../../../../../constants/Colors';
 import ICONS from '../../../../../constants/Icons';
-import Services from '../../../../../network/services';
+import KEYS from '../../../../../socket/SocketKeys';
 import Storage from '../../../../../storage';
 
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { actions } from '../../../../../states/actions/index';
 
 
 
-export default function LeftChatBox({ data, chat_id }) {
+export default function LeftChatBox({ data }) {
 
-    const stateData = useSelector(state => state)
-    const dispatch = useDispatch()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
@@ -28,29 +24,23 @@ export default function LeftChatBox({ data, chat_id }) {
         setAnchorEl(null);
     };
 
+
     const fetchMarkMessageAsRead = async () => {
-            try {
-                const result = await Services.MessageService.getMarkMessageAsRead(data._id)
-                if (!result) {
-                    dispatch(actions.ErrorDialogActions.showNoDataFromApi())
-                } else {
-                    if (result.data.result === 1) {
-                        data.readby.push({_id:""+Storage.Session.getUserData()._id, username:""+Storage.Session.getUserData().username, image:""+Storage.Session.getUserData().image})
-                        let chatObj = {
-                            chat_id:chat_id,
-                            last_message:data
-                        }
-                        dispatch(actions.RecentChatActions.updateLastMessageInRecentChat(chatObj))
-                    }
-                }
-            } catch (e) {
-                dispatch(actions.ErrorDialogActions.showException(e.message))
-            }
+        try {
+            setTimeout(() => {
+                global.socket.emit(KEYS.MARK_MESSAGE_AS_READ, {
+                    message_id: "" + data._id,
+                    user_id: "" + Storage.Session.getUserData()._id
+                }, () => {
+                });
+            }, 600)
+        } catch (e) {
+        }
     }
 
-    useEffect(()=>{
-        let isAlreadyRead = data.readby.some((el)=>{ return el._id == Storage.Session.getUserData()._id})
-        if(!isAlreadyRead){ fetchMarkMessageAsRead()}
+    useEffect(() => {
+        let isAlreadyRead = data.readby.some((el) => { return el._id == Storage.Session.getUserData()._id })
+        if (!isAlreadyRead) { fetchMarkMessageAsRead() }
     }, [])
 
     return (
@@ -86,7 +76,7 @@ export default function LeftChatBox({ data, chat_id }) {
                         <Typography sx={{ fontSize: 10, fontWeight: 700, color: '#333', marginBottom: 1 }}>Read By</Typography>
                         {
                             data.readby.map((e, i) => {
-                                return <Grid container direction={'row'} sx={{marginBottom:1}}>
+                                return <Grid container direction={'row'} sx={{ marginBottom: 1 }}>
                                     <Grid item> <Avatar src={e.image} sx={{ width: 15, height: 15, marginRight: 1 }} /> </Grid>
                                     <Grid item> <Typography sx={{ fontSize: 9 }}>{e.username}</Typography> </Grid>
                                 </Grid>

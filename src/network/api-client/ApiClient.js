@@ -3,7 +3,7 @@ import Storage from '../../storage';
 
 
 const apiClient = () => {
-    const REACT_APP_API_URL = "http://192.168.0.109:5000/api/v1/";
+    const REACT_APP_API_URL = "http://192.168.0.111:5000/api/v1/";
     // const REACT_APP_API_URL = "http://44.206.245.7:5000/api/v1/";
 
     // const getHeader = () => {
@@ -50,9 +50,8 @@ const apiClient = () => {
         async function (response) {
             try {
                 if (response.data.result === 3) {
-                    Storage.Session.saveuserDetails(null)
                     alert("It seems you have logged in another device please login again");
-                    window.location.reload(false)
+                    Storage.Session.logout()
                 }
             } finally {
                 return response;

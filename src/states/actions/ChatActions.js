@@ -17,8 +17,18 @@ const setGroupChat = (data)=>{
 }
 
 
+const setMessages = (data)=>{
+    return async ( dispatch) =>{
+        dispatch({
+            type:'set_messages',
+            payload:data
+        })
+    }
+}
 
 
 
 
-export default {setRecentChat, setGroupChat}
+
+
+export default {setRecentChat, setGroupChat, setMessages}

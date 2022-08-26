@@ -1,3 +1,6 @@
+
+import IndexedDB from '../databse';
+
 const saveuserDetails = (data)=>{
     localStorage.setItem('USER_DATA', data)    
 }
@@ -8,4 +11,11 @@ const getUserData = ()=>{
     return returningData;
 }
 
-export default {saveuserDetails, getUserData}
+const logout = ()=>{
+    IndexedDB.clearDB();
+    localStorage.clear();
+    window.location.reload(false);
+    global.socket.disconnect()
+}
+
+export default {saveuserDetails, getUserData, logout}
