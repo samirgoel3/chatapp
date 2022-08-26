@@ -1,16 +1,17 @@
 import LoadingButton from '@mui/lab/LoadingButton'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, Navigate } from 'react-router-dom'
 import ErrorInput from '../../components/common/ErrorInput'
 import TechDescriptionView from '../../components/tech-description'
 import ROUTESNAMES from '../../constants/RoutesName'
 import Services from '../../network/services/'
 import { actions } from '../../states/actions'
-import './login.css'
 import Storage from '../../storage'
-import Localbase from 'localbase'
-import { Button } from '@mui/material'
+import './login.css'
+
+
+
 
 
 
@@ -20,6 +21,7 @@ export default function Login() {
     const [inputs, setInputs] = React.useState({ email: '', password: '' })
     const [error, setError] = React.useState({ email: "", password: "" })
     const [loader, setLoader] = React.useState(false)
+    let navigate = useNavigate();
 
     const handleInputChange = (inputKey, value) => {
         setInputs(prevState => ({ ...prevState, [inputKey]: value }))
@@ -64,7 +66,8 @@ export default function Login() {
             } else {
                 if (data.data.result === 1) {
                     Storage.Session.saveuserDetails(JSON.stringify(data.data.response))
-                    window.location.reload(false)
+                    // window.location.reload(false)
+                    navigate(ROUTESNAMES.LOADING, {replace: true})   
                 }
                 else {
                     dispatch(actions.ErrorDialogActions.showError({ header: "Failed To login", description: "" + data.data.message }))

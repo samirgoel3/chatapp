@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet } from "react-router-dom";
 
 
-const AnywhereAccesible = ({isAuthenticated, children, ...rest}) => {
+const AnywhereAccesible = () => {
     // if (!isAuthenticated) {
     //   return <Navigate to={ROUTESNAMES.LOGIN} />;
     // }

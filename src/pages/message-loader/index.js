@@ -46,7 +46,7 @@ export default function MessageLoader() {
                         if(i == chats.length -1){
                             setLoadingMessage('Chats Loaded completely')
                             setTimeout(()=>{
-                                navigate("" + ROUTESNAMES.MAIN, { replace: true });
+                                navigate( ROUTESNAMES.MAIN, { replace: true });
                             }, 2000)
                         }
                     }                    

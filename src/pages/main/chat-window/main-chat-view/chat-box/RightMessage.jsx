@@ -24,7 +24,8 @@ export default function RightChatBox({ data }) {
     };
 
     return (
-        <div style={{ padding: 5, display: 'flex', display: 'flex', flexDirection: 'row', alignSelf: 'flex-end', maxWidth: '65%' }}>
+        <div style={{ padding: 5, display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignSelf:'flex-end' }}>
+
             <div style={{ marginRight: 10 }}>
                 <Typography sx={{ fontSize: 10, fontWeight: 700, color: '#333', textAlign: 'end' }}>{data.sender.username}</Typography>
                 <Typography sx={{ backgroundColor: COLORS.TEAL_200, padding: 1, fontSize: 12, borderTopRightRadius: 5, borderBottomLeftRadius: 5, borderBottomRightRadius: 3 }}>

@@ -14,7 +14,7 @@ import { store } from '../../../../../states/index';
 
 
 
-export default function ChatBox({chatId}) {
+export default function ChatBox({ chatId }) {
 
     const stateData = useSelector(state => state)
     const bottomRef = React.useRef(null);
@@ -32,9 +32,9 @@ export default function ChatBox({chatId}) {
     // useEffect(() => { setMessages(chatData.messages) }, [chatData.chat_id])
 
     useBus('MESSAGE-RECEIVED', (data) => {
-        if(data.data.chat_id == store.getState().selectorData.last_selection){
+        if (data.data.chat_id == store.getState().selectorData.last_selection) {
             dispatch(actions.MessagesActions.addMessage(data.data.messageData))
-            setTimeout(()=>{
+            setTimeout(() => {
                 bottomRef.current.scrollIntoView({ behavior: 'smooth' })
             }, 250)
         }
@@ -44,8 +44,10 @@ export default function ChatBox({chatId}) {
 
     return (
         <div style={{ position: 'relative' }}>
-            <Grid container alignItems={'flex-end'} sx={{ overflowY: 'scroll', height: '80vh', position: 'relative', backgroundImage: `url(${ChatBackground})`, backgroundSize: 'cover' }} >
-                <div>
+            <Grid container
+                alignItems={'flex-end'}
+                sx={{ overflowY: 'scroll', height: '80vh', position: 'relative', backgroundImage: `url(${ChatBackground})`, backgroundSize: 'cover' }} >
+                <div style={{ width:'100%'}}>
 
                     {
                         stateData.messagesData.messages.map((e, i) =>
@@ -54,7 +56,6 @@ export default function ChatBox({chatId}) {
                         )
                     }
                     <div ref={bottomRef} />
-
                 </div>
             </Grid>
 

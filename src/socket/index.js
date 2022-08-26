@@ -10,7 +10,7 @@ import KEYS from "./SocketKeys";
 const initSocket = (dispatch) => {
     let authentication = { auth: { token: Session.getUserData().token } }
     // let authentication = {auth: {  token: ""+Session.getUserData().token}}
-    global.socket = io.connect('http://192.168.0.111:5000', authentication)
+    global.socket = io.connect('http://44.206.245.7:5000', authentication)
     //  socket = io('http://44.206.245.7:5000')
     // const socket = io()
 

@@ -1,8 +1,9 @@
 
 import IndexedDB from '../databse';
 
-const saveuserDetails = (data)=>{
-    localStorage.setItem('USER_DATA', data)    
+const saveuserDetails = async (data)=>{
+    await localStorage.setItem('USER_DATA', data)
+    return;
 }
 
 const getUserData = ()=>{

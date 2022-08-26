@@ -18,7 +18,7 @@ export default function ChatBar({chatData}) {
             flexDirection={'row'}
             justifyContent={'flex-start'}
             alignItems={'center'}>
-            <Avatar style={{ width: 35, height: 35 }} src={ChatUtils.getOtherUserimage(chatData.groupadmin)} />
+            <Avatar style={{ width: 42, height: 42, backgroundColor:'#bbb' }} src={ChatUtils.getOtherUserimage(chatData.groupadmin)} />
             <Grid container flexDirection={'column'} flex={1} sx={{ paddingInline: 2 }}>
                 <Typography sx={{ color: 'white', fontSize: 15, fontWeight: 700 }}>{chatData.chatname}</Typography>
                 <Typography sx={{ color: 'white', fontSize: 10, fontWeight: 400 }}>{chatData.chat_id}</Typography>

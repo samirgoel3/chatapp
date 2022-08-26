@@ -2,7 +2,8 @@
   "name": "chatapp",
   "version": "0.1.0",
   "private": true,
-  "proxy":"http://192.168.0.111:5000",
+  "proxy": "http://44.206.245.7:5000",
+  "homepage": "http://samirgoel3.github.io/chatapp",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -15,6 +16,7 @@
     "axios": "^0.27.2",
     "date-and-time": "^2.4.1",
     "form-data": "^4.0.0",
+    "gh-pages": "^4.0.0",
     "localbase": "^0.7.5",
     "lodash": "^4.17.21",
     "logger": "^0.0.1",
@@ -36,7 +38,9 @@
     "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
     "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy":"npm run build",
+    "deploy":"gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

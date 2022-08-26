@@ -77,30 +77,33 @@ function App() {
         <Routes>
 
           {/* public routes */}
-          <Route element={<PublicRoutes isAuthenticated={isLoggedin} />}>
+          <Route element={<PublicRoutes  />}>
             <Route path={ROUTESNAMES.ROUTESNAMES.LOGIN} element={<Login />} />
             <Route path={ROUTESNAMES.ROUTESNAMES.SIGN_UP} element={<SignUp />} />
           </Route>
 
+          
 
          
+         
           {/* private routes */}
-          <Route element={<ProtectedRoute isAuthenticated={isLoggedin} />}>
-            <Route path={'/'} element={<Main />} />
+          <Route element={<ProtectedRoute  />}>
+            <Route path={ROUTESNAMES.ROUTESNAMES.LOADING} element={<MessageLoader />}/>
+            <Route path={'/'} element={<Main />} exact/>
             <Route path={ROUTESNAMES.ROUTESNAMES.MAIN} element={<Main />} />
             <Route path={ROUTESNAMES.ROUTESNAMES.ANALYTICS} element={<Analytics />} />
           </Route>
 
          
-          <Route path={ROUTESNAMES.ROUTESNAMES.LOADING} element={<MessageLoader />} />
+          
           
           {/* routes which need login state but can be access withoput login */}
-          <Route element={<AnywhereAccesible isAuthenticated={isLoggedin} />}>
+          <Route element={<AnywhereAccesible />}>
             <Route path={ROUTESNAMES.ROUTESNAMES.DEV} element={<Dev />} />
           </Route>
 
           {/* when page is not found */}
-          <Route path={ROUTESNAMES.ROUTESNAMES.ALL} element={<>Page not found</>} />
+          <Route path={ROUTESNAMES.ROUTESNAMES.ALL} element={<>Page not found for this LINK</>} />
 
 
         </Routes>
