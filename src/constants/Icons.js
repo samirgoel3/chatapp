@@ -6,7 +6,9 @@ import { ImCamera } from "react-icons/im";
 import { SiGmail, SiMongodb, SiPostman, SiSocketdotio, SiMaterialui } from "react-icons/si";
 import { TbSend } from "react-icons/tb";
 import { RiMenu2Line, RiCloseCircleFill } from "react-icons/ri";
-import { BsMenuAppFill, BsApple } from "react-icons/bs"
+import { BsMenuAppFill, BsApple, BsChevronDown } from "react-icons/bs"
+import { AiOutlineSketch } from "react-icons/ai"
+
 
 
 const ICONS = {
@@ -29,7 +31,9 @@ const ICONS = {
     MATERIAL_UI:SiMaterialui,
     ANDROID:DiAndroid,
     APPLE:BsApple,
-    CLOSE:RiCloseCircleFill
+    CLOSE:RiCloseCircleFill,
+    DOWN:BsChevronDown,
+    SKETCH:AiOutlineSketch,
 }
 
 export default ICONS;

@@ -7,6 +7,7 @@ const ROUTESNAMES = {
     MAIN:'/main',
     ANALYTICS:'/analytics',
     DEV:'/dev',
+    RESUME:'/resume',
 }
 
 export default ROUTESNAMES;

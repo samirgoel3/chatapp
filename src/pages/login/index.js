@@ -1,4 +1,4 @@
-import LoadingButton from '@mui/lab/LoadingButton'
+import { Button } from '@mui/material'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate, Navigate } from 'react-router-dom'
@@ -111,12 +111,9 @@ export default function Login() {
                         value={inputs.password} />
 
                     <div className='button-container'>
-                        <LoadingButton
+                        <Button
                             variant='contained'
-                            loadingIndicator="Signing in..."
-                            className='login-button'
-                            loading={loader}
-                            onClick={() => { validate() }} > Login</LoadingButton>
+                            onClick={() => { validate() }} > Login</Button>
 
                     </div>
 

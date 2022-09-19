@@ -17,6 +17,7 @@ import {store} from './states';
 import BottomErrorDialog from './components/common/BottomErrorDialog';
 import Session from './storage/Session';
 import MessageLoader from './pages/message-loader';
+import Resume from './pages/resume';
 
 
 const theme = createTheme({
@@ -80,6 +81,7 @@ function App() {
           <Route element={<PublicRoutes  />}>
             <Route path={ROUTESNAMES.ROUTESNAMES.LOGIN} element={<Login />} />
             <Route path={ROUTESNAMES.ROUTESNAMES.SIGN_UP} element={<SignUp />} />
+            <Route path={ROUTESNAMES.ROUTESNAMES.RESUME} element={<Resume />} />
           </Route>
 
           

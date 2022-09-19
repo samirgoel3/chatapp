@@ -11,7 +11,7 @@ import './signup.css'
 import Services from '../../network/services/';
 import { useDispatch } from 'react-redux';
 import { actions } from '../../states/actions';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { Button } from '@mui/material'
 import Storage from '../../storage'
 
 
@@ -149,12 +149,10 @@ export default function SignUp() {
                     </Grid>
 
 
-                    <LoadingButton
+                    <Button
                         variant='contained'
-                        loadingIndicator="Creating user..."
                         sx={{ width: '100%' }}
-                        loading={loader}
-                        onClick={() => { validate() }} >Create Account</LoadingButton>
+                        onClick={() => { validate() }} >Create Account</Button>
 
                     <div className='signup-container' >
                         Already have account? <Link className='login-text' to={ROUTESNAMES.LOGIN}> Login</Link>
