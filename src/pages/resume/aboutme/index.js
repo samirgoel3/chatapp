@@ -15,7 +15,7 @@ export default function Aboutme(){
     return(
         <Grid container direction={'row'}>
             <Grid item className='left-container'>
-                <div className='about-me-heading'>Hi I am Samir Goel</div>
+                <div className='about-me-heading'>Hi I am SAMIR GOEL :)</div>
                 <div className='about-me-description'>I am a module lead and Full stack developer for Mobile and Web app with a work experience of 8 years <span style={{fontWeight:700, color:COLORS.RESUME_BACKGROUND, textDecorationLine:'underline'}}>more about me</span></div>
                 <Grid container justifyContent={'start'} marginTop={1}>
                     <Grid item><a href="https://wa.me/919650923089" target="_blank"><img src={WhatsApp} className="social-button"/></a></Grid>

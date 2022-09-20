@@ -1,33 +1,31 @@
 import React from 'react';
 import './App.css';
-import Login from './pages/login';
-import SignUp from './pages/signup';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material';
-import COLORS from './constants';
-import ROUTESNAMES from './constants';
-import Main from './pages/main';
-import ProtectedRoute from './routes/ProtectedRoute';
-import PublicRoutes from './routes/PublicRoutes';
-import Dev from './pages/dev';
-import Analytics from './pages/analytics';
-import AnywhereAccesible from './routes/AnywhereAccesibleRoutes';
-import { Provider } from 'react-redux';
-import {store} from './states';
-import BottomErrorDialog from './components/common/BottomErrorDialog';
-import Session from './storage/Session';
-import MessageLoader from './pages/message-loader';
 import Resume from './pages/resume';
+import { ThemeProvider, createTheme } from '@mui/material';
+import COLORS from './constants/Colors';
+import { store } from './states';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import BottomErrorDialog from './components/common/BottomErrorDialog';
+import ROUTESNAMES from './constants/RoutesName';
+import Login from './pages/login/index';
+import SignUp from './pages/signup/index';
+import Main from './pages/main/index';
+import MessageLoader from './pages/message-loader/index';
+import Analytics from './pages/analytics/index';
+
+
+
 
 
 const theme = createTheme({
 
   palette: {
     primary: {
-      main: COLORS.COLORS.PRIMARY
+      main: COLORS.PRIMARY
     },
-    secondary:{
-      main:'#ffffff'
+    secondary: {
+      main: '#ffffff'
     }
   },
 
@@ -40,10 +38,10 @@ const theme = createTheme({
         }
       }
     },
-    MuiTab:{
-      styleOverrides:{
-        root:{
-          textTransform:'capitalize',
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          textTransform: 'capitalize',
           color: 'rgba(255, 255, 255, 0.7)',
         },
       }
@@ -65,54 +63,32 @@ const theme = createTheme({
 });
 
 
-const isLoggedin = Session.getUserData() === null? false : true;
-
 
 
 
 function App() {
-  return (<Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-      <BottomErrorDialog/>
-        <Routes>
+  return (
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <BottomErrorDialog />
 
-          {/* public routes */}
-          <Route element={<PublicRoutes  />}>
-            <Route path={ROUTESNAMES.ROUTESNAMES.LOGIN} element={<Login />} />
-            <Route path={ROUTESNAMES.ROUTESNAMES.SIGN_UP} element={<SignUp />} />
-            <Route path={ROUTESNAMES.ROUTESNAMES.RESUME} element={<Resume />} />
-          </Route>
+          <Routes>
+            <Route path={ROUTESNAMES.LOGIN} element={<Login />} />
+            <Route path={ROUTESNAMES.SIGN_UP} element={<SignUp />} />
+            <Route path={ROUTESNAMES.RESUME} element={<Resume />} />
 
-          
-
-         
-         
-          {/* private routes */}
-          <Route element={<ProtectedRoute  />}>
-            <Route path={ROUTESNAMES.ROUTESNAMES.LOADING} element={<MessageLoader />}/>
-            <Route path={'/'} element={<Main />} exact/>
-            <Route path={ROUTESNAMES.ROUTESNAMES.MAIN} element={<Main />} />
-            <Route path={ROUTESNAMES.ROUTESNAMES.ANALYTICS} element={<Analytics />} />
-          </Route>
-
-         
-          
-          
-          {/* routes which need login state but can be access withoput login */}
-          <Route element={<AnywhereAccesible />}>
-            <Route path={ROUTESNAMES.ROUTESNAMES.DEV} element={<Dev />} />
-          </Route>
-
-          {/* when page is not found */}
-          <Route path={ROUTESNAMES.ROUTESNAMES.ALL} element={<>Page not found for this LINK</>} />
+            <Route path={ROUTESNAMES.LOADING} element={<MessageLoader />}/>
+            <Route path={'/'} element={<Resume />} exact/>
+            <Route path={ROUTESNAMES.MAIN} element={<Main />} />
+            <Route path={ROUTESNAMES.ANALYTICS} element={<Analytics />} />
 
 
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </Provider>
-  );
+  )
 }
 
 export default App;
