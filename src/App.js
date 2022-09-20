@@ -74,9 +74,12 @@ function App() {
           <BottomErrorDialog />
 
           <Routes>
+
+
             <Route path={ROUTESNAMES.LOGIN} element={<Login />} />
             <Route path={ROUTESNAMES.SIGN_UP} element={<SignUp />} />
             <Route path={ROUTESNAMES.RESUME} element={<Resume />} />
+            <Route path={ROUTESNAMES.SAMPLE_CHAT_APP} element={<Login/>} />
 
             <Route path={ROUTESNAMES.LOADING} element={<MessageLoader />}/>
             <Route path={'/'} element={<Resume />} exact/>
