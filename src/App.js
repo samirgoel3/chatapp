@@ -13,6 +13,9 @@ import SignUp from './pages/signup/index';
 import Main from './pages/main/index';
 import MessageLoader from './pages/message-loader/index';
 import Analytics from './pages/analytics/index';
+import PublicRoutes from './routes/PublicRoutes';
+import ProtectedRoute from './routes/ProtectedRoute';
+
 
 
 
@@ -75,15 +78,23 @@ function App() {
 
           <Routes>
 
-
-            <Route path={ROUTESNAMES.LOGIN} element={<Login />} />
-            <Route path={ROUTESNAMES.SIGN_UP} element={<SignUp />} />
             <Route path={ROUTESNAMES.RESUME} element={<Resume />} />
-            <Route path={ROUTESNAMES.SAMPLE_CHAT_APP} element={<Login/>} />
-
-            <Route path={ROUTESNAMES.LOADING} element={<MessageLoader />}/>
             <Route path={'/'} element={<Resume />} exact/>
-            <Route path={ROUTESNAMES.MAIN} element={<Main />} />
+
+
+            <Route element={<PublicRoutes />}>
+              <Route path={ROUTESNAMES.LOGIN} element={<Login />} />
+              <Route path={ROUTESNAMES.SIGN_UP} element={<SignUp />} />
+              <Route path={ROUTESNAMES.SAMPLE_CHAT_APP} element={<Login />} />
+            </Route>
+            <Route path={ROUTESNAMES.LOADING} element={<MessageLoader />} />
+
+            <Route element={<ProtectedRoute />}>
+              <Route path={ROUTESNAMES.MAIN} element={<Main />} />
+            </Route>
+
+
+
             <Route path={ROUTESNAMES.ANALYTICS} element={<Analytics />} />
 
 

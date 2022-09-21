@@ -2,8 +2,8 @@
   "name": "chatapp",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://44.206.245.7:5000",
-  "homepage":"http://13.127.27.173/",
+  "proxy": "http://43.205.208.192:5000",
+  "homepage":"http://samirgoel.dev/",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",

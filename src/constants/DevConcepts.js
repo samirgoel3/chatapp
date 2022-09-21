@@ -157,7 +157,6 @@ const Concepts = [
     }
 ]
 
-//   "proxy":"http://44.206.245.7:5000",
 
 
 export default Concepts;
